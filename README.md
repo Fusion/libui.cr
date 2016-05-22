@@ -1,6 +1,6 @@
 # libui.cr
 
-Crystal-lang bindings for libui, a GUI library for Linux, OS X and Windows.
+Crystal-lang bindings for [libui](https://github.com/andlabs/libui), a GUI library for Linux, OS X and Windows.
 
 (well, forget about Windows for now, this is Crystal)
 
