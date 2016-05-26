@@ -19,6 +19,7 @@ lib UI
   type ProgressBar = Void*
   type Slider = Void*
   type Combobox = Void*
+  type EditableCombobox = Void*
   type RadioButtons = Void*
   type FontButton = Void*
   type ColorButton = Void*
@@ -67,6 +68,7 @@ lib UI
   # Life Cycle
   
   fun main = uiMain
+  fun mainStep = uiMainStep(wait: LibC::Int): LibC::Int
   fun init = uiInit(options: UI::InitOptions*): Char*
   fun uninit = uiUninit
   fun quit = uiQuit
@@ -179,11 +181,16 @@ lib UI
   fun sliderOnChanged = uiSliderOnChanged(s: UI::Slider*, f: UI::Slider*, Void* ->, Void*)
 
   fun newCombobox = uiNewCombobox: UI::Combobox*
-  fun newEditableCombobox = uiNewEditableCombobox: UI::Combobox*
   fun comboboxAppend = uiComboboxAppend(c: UI::Combobox*, text: UInt8*)
   fun comboboxSelected = uiComboboxSelected(c: UI::Combobox*): Int64
   fun comboboxSetSelected = uiComboboxSetSelected(c: UI::Combobox*, n: Int64)
   fun comboboxOnSelected = uiComboboxOnSelected(c: UI::Combobox*, f: UI::Combobox*, Void* ->, Void*)
+
+  fun newEditableCombobox = uiNewEditableCombobox: UI::EditableCombobox*
+  fun editableComboboxAppend = uiEditableComboboxAppend(c: UI::EditableCombobox*, text: UInt8*)
+  fun editableComboboxText = uiEditableComboboxText(c: UI::EditableCombobox*): UInt8*
+  fun editableComboboxSetText = uiEditableComboboxSetText(c: UI::EditableCombobox*, text: UInt8*)
+  fun editableComboboxOnChanged = uiEditableComboboxOnChanged(c: UI::EditableCombobox*, f: UI::Combobox*, Void* ->, Void*)
 
   fun newRadioButtons = uiNewRadioButtons: UI::RadioButtons*
   fun radioButtonsAppend = uiRadioButtonsAppend(r: UI::RadioButtons*, text: UInt8*)

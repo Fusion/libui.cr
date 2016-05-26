@@ -9,7 +9,7 @@ class ControlGallery
     o = UI::InitOptions.new
     err = UI.init pointerof(o)
     if !uiNil?(err)
-  		puts "error initializing ui: #{err}"
+      puts "error initializing ui: #{err}"
       exit 1
     end
 
@@ -41,7 +41,7 @@ class ControlGallery
       if uiNil?(filename)
         UI.msgBoxError mainwin, "No file selected", "Don't be alarmed!"
       else
-      	UI.msgBox mainwin, "File selected (don't worry, it's still there)", filename
+        UI.msgBox mainwin, "File selected (don't worry, it's still there)", filename
         UI.freeText filename
       end
     }
@@ -67,11 +67,11 @@ class ControlGallery
     UI.onShouldQuit shouldquit, nil
 
     menu = UI.newMenu "Edit"
-  	item = UI.menuAppendCheckItem menu, "Checkable Item"
-  	UI.menuAppendSeparator menu
-  	item = UI.menuAppendItem menu, "Disabled Item"
-  	UI.menuItemDisable item
-  	item = UI.menuAppendPreferencesItem menu
+    item = UI.menuAppendCheckItem menu, "Checkable Item"
+    UI.menuAppendSeparator menu
+    item = UI.menuAppendItem menu, "Disabled Item"
+    UI.menuItemDisable item
+    item = UI.menuAppendPreferencesItem menu
 
     menu = UI.newMenu "Help"
     item = UI.menuAppendItem menu, "Help"
@@ -140,37 +140,37 @@ class ControlGallery
     progressbar = @@progressbar.not_nil!
     UI.boxAppend inner, uiControl(progressbar), 0
 
-  	group = UI.newGroup "Lists"
+    group = UI.newGroup "Lists"
     UI.groupSetMargined group, 1
-  	UI.boxAppend inner2, uiControl(group), 0
+    UI.boxAppend inner2, uiControl(group), 0
 
-  	inner = UI.newVerticalBox
-  	UI.boxSetPadded inner, 1
-  	UI.groupSetChild group, uiControl(inner)
+    inner = UI.newVerticalBox
+    UI.boxSetPadded inner, 1
+    UI.groupSetChild group, uiControl(inner)
 
-  	cbox = UI.newCombobox
-  	UI.comboboxAppend cbox, "Combobox Item 1"
-  	UI.comboboxAppend cbox, "Combobox Item 2"
-  	UI.comboboxAppend cbox, "Combobox Item 3"
-  	UI.boxAppend inner, uiControl(cbox), 0
+    cbox = UI.newCombobox
+    UI.comboboxAppend cbox, "Combobox Item 1"
+    UI.comboboxAppend cbox, "Combobox Item 2"
+    UI.comboboxAppend cbox, "Combobox Item 3"
+    UI.boxAppend inner, uiControl(cbox), 0
 
-  	cbox = UI.newEditableCombobox
-  	UI.comboboxAppend cbox, "Editable Item 1"
-  	UI.comboboxAppend cbox, "Editable Item 2"
-  	UI.comboboxAppend cbox, "Editable Item 3"
-  	UI.boxAppend inner, uiControl(cbox), 0
+    ecbox = UI.newEditableCombobox
+    UI.editableComboboxAppend ecbox, "Editable Item 1"
+    UI.editableComboboxAppend ecbox, "Editable Item 2"
+    UI.editableComboboxAppend ecbox, "Editable Item 3"
+    UI.boxAppend inner, uiControl(ecbox), 0
 
-  	rb = UI.newRadioButtons
-  	UI.radioButtonsAppend rb, "Radio Button 1"
-  	UI.radioButtonsAppend rb, "Radio Button 2"
-  	UI.radioButtonsAppend rb, "Radio Button 3"
-  	UI.boxAppend inner, uiControl(rb), 1
+    rb = UI.newRadioButtons
+    UI.radioButtonsAppend rb, "Radio Button 1"
+    UI.radioButtonsAppend rb, "Radio Button 2"
+    UI.radioButtonsAppend rb, "Radio Button 3"
+    UI.boxAppend inner, uiControl(rb), 1
 
-  	tab = UI.newTab
-  	UI.tabAppend tab, "Page 1", uiControl(UI.newHorizontalBox)
-  	UI.tabAppend tab, "Page 2", uiControl(UI.newHorizontalBox)
-  	UI.tabAppend tab, "Page 3", uiControl(UI.newHorizontalBox)
-  	UI.boxAppend inner2, uiControl(tab), 1
+    tab = UI.newTab
+    UI.tabAppend tab, "Page 1", uiControl(UI.newHorizontalBox)
+    UI.tabAppend tab, "Page 2", uiControl(UI.newHorizontalBox)
+    UI.tabAppend tab, "Page 3", uiControl(UI.newHorizontalBox)
+    UI.boxAppend inner2, uiControl(tab), 1
 
     # -
 
