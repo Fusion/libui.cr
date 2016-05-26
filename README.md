@@ -23,7 +23,7 @@ Have a look at src/examples/controlgallery, which is a direct port of a C exampl
 
 Recent versions of Crystal now require you to include the current path explicitely to find libraries:
 
-   crystal build --link-flags "-L$(PWD)" src/examples/controlgallery/main.cr
+    crystal build --link-flags "-L$(PWD)" src/examples/controlgallery/main.cr
 
 At least on OS X, if you omit this flag, libui.A.dylib will not be found.
 
