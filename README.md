@@ -19,18 +19,17 @@ Add these package to your dependencies in shard.yml:
 
 Have a look at src/examples/controlgallery, which is a direct port of a C example.
 
-## Bugs
-
-At the moment, on OS X, the example will cause a crash when exiting.
-This unfortunate behavior exists in the original C library so we will have to wait for a fix.
-
 ## Development
 
 Recent versions of Crystal now require you to include the current path explicitely to find libraries:
 
-   crystal build --link-flags "-L$(PWD)" src/<your code>
+   crystal build --link-flags "-L$(PWD)" src/examples/controlgallery/main.cr
 
 At least on OS X, if you omit this flag, libui.A.dylib will not be found.
+
+To run the generated binary:
+
+    LD_LIBRARY_PATH=. ./main
 
 ## Contributing
 
