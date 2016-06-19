@@ -6,6 +6,12 @@ Crystal-lang bindings for [libui](https://github.com/andlabs/libui), a GUI libra
 
 ![OS X](https://raw.githubusercontent.com/andlabs/libui/master/examples/controlgallery/darwin.png)
 
+## What's New
+
+06/19/16
+- Sync'd to upstream #9656a81
+- Control Gallery example not updated but library is.
+
 ## Installation
 
 Add these package to your dependencies in shard.yml:

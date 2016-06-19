@@ -1,6 +1,21 @@
 @[Link("ui")]
 
 lib UI
+
+  enum Align
+    AlignFill
+    AlignStart
+    AlignCenter
+    AlignEnd
+  end
+
+  enum At
+    AtLeading
+    AtTop
+    AtTrailing
+    AtBottom
+  end
+
   type Menu = Void*
   type MenuItem = Void*
   type Window = Void*
@@ -23,6 +38,8 @@ lib UI
   type RadioButtons = Void*
   type FontButton = Void*
   type ColorButton = Void*
+  type Form = Void*
+  type Grid = Void*
   type DrawTextFont = Void*
   type Area = Void*
   type AreaHandler = Void*
@@ -66,8 +83,9 @@ lib UI
   end
 
   # Life Cycle
-  
+
   fun main = uiMain
+  fun mainSteps = uiMainSteps
   fun mainStep = uiMainStep(wait: LibC::Int): LibC::Int
   fun init = uiInit(options: UI::InitOptions*): Char*
   fun uninit = uiUninit
@@ -95,14 +113,26 @@ lib UI
   fun menuItemSetChecked = uiMenuItemSetChecked(m: UI::MenuItem*, checked: LibC::Int)
 
   fun newHorizontalSeparator = uiNewHorizontalSeparator: UI::Separator*
+  fun newVerticalSeparator = uiNewVerticalSeparator: UI::Separator*
 
   fun newWindow = uiNewWindow(title: UInt8*, width: LibC::Int, height: LibC::Int, hasMenubar: LibC::Int): UI::Window*
   fun windowSetMargined = uiWindowSetMargined(w: UI::Window*, margined: LibC::Int)
   fun windowMargined = uiWindowMargined(w: UI::Window*): LibC::Int
-  fun windowSetChild = uiWindowSetChild(w: UI::Window*, child: UI::Control*)
+  fun windowPosition = uiWindowPosition(w: UI::Window*, x: LibC::Int*, y: LibC::Int*)
+  fun windowSetPosition = uiWindowSetPosition(w: UI::Window*, x: LibC::Int, y: LibC::Int)
+  fun windowCenter = uiWindowCenter(w: UI::Window*)
+  fun windowOnPositionChanged = uiWindowOnPositionChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
+  fun windowContentSize = uiWindowContentSize(w: UI::Window*, width: LibC::Int*, height: LibC::Int*)
+  fun windowSetContentSize = uiWindowSetContentSize(w: UI::Window*, width: LibC::Int, height: LibC::Int)
+  fun windowFullscreen = uiWindowFullscreen(w: UI::Window*): LibC::Int
+  fun windowSetFullscreen = uiWindowSetFullscreen(w: UI::Window*, fullscreen: LibC::Int)
+  fun windowOnContentSizeChanged = uiWindowOnContentSizeChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
+  fun windowBorderless = uiWindowBorderless(w: UI::Window*): LibC::Int
+  fun windowSetBorderless = uiWindowSetBorderless(w: UI::Window*, borderless: LibC::Int)
   fun windowTitle = uiWindowTitle(w: UI::Window*): UInt8*
-  fun windowSetTiele = uiWindowSetTitle(w: UI::Window*, title: UInt8*)
+  fun windowSetTitle = uiWindowSetTitle(w: UI::Window*, title: UInt8*)
   fun windowOnClosing = uiWindowOnClosing(w: UI::Window*, f: UI::Window*, Void* -> LibC::Int, Void*)
+  fun windowSetChild = uiWindowSetChild(w: UI::Window*, child: UI::Control*)
 
   fun newVerticalBox = uiNewVerticalBox: UI::Box*
   fun newHorizontalBox = uiNewHorizontalBox: UI::Box*
@@ -145,6 +175,9 @@ lib UI
   fun checkboxSetChecked = uiCheckboxSetChecked(c: UI::Checkbox*, checked: LibC::Int)
 
   fun newEntry = uiNewEntry: UI::Entry*
+  fun newPasswordEntry = uiNewPasswordEntry: UI::Entry*
+  fun newSearchEntry = uiNewSearchEntry: UI::Entry*
+
   fun entrySetText = uiEntrySetText(e: UI::Entry*, text: UInt8*)
   fun entryTest = uiEntryText(e: UI::Entry*): UInt8*
   fun entryOnChanged = uiEntryOnChanged(e: UI::Entry*, f: UI::Entry*, Void* ->, Void*)
@@ -173,6 +206,7 @@ lib UI
   fun spinboxOnChanged = uiSpinboxOnChanged(s: UI::Spinbox*, f: UI::Spinbox*, Void* ->, Void*)
 
   fun newProgressBar = uiNewProgressBar: UI::ProgressBar*
+  fun progressBarValue = uiProgressBarValue(p: UI::ProgressBar*): LibC::Int
   fun progressBarSetValue = uiProgressBarSetValue(p: UI::ProgressBar*, n: LibC::Int)
 
   fun newSlider = uiNewSlider(min: Int64, max: Int64): UI::Slider*
@@ -194,6 +228,9 @@ lib UI
 
   fun newRadioButtons = uiNewRadioButtons: UI::RadioButtons*
   fun radioButtonsAppend = uiRadioButtonsAppend(r: UI::RadioButtons*, text: UInt8*)
+  fun radioButtonsSelected = uiRadioButtonsSelected(r: UI::RadioButtons*): LibC::Int
+  fun radioButtonsSetSelected = uiRadioButtonsSetSelected(r: UI::RadioButtons*, n: LibC::Int)
+  fun radioButtonsOnSelected = uiRadioButtonsOnSelected(r: UI::RadioButtons, f: UI::RadioButtons*, Void* ->, Void*)
 
   fun newFontButton = uiNewFontButton: UI::FontButton*
   fun fontButtonFont = uiFontButtonFont(b: UI::FontButton*): UI::DrawTextFont*
@@ -203,6 +240,18 @@ lib UI
   fun colorButtonColor = uiColorButtonColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
   fun colorButtonSetColor = uiColorButtonSetColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
   fun colorButtonOnChanged = uiColorButtonOnChanged(b: UI::ColorButton*, f: UI::ColorButton*, Void* ->, Void*)
+
+  fun newForm = uiNewForm: UI::Form*
+  fun formAppend = uiFormAppend(f: UI::Form*, label: UInt8*, c: UI::Control*, stretchy: LibC::Int)
+  fun formDelete = uiFormDelete(f: UI::Form*, index: LibC::Int)
+  fun formPadded = uiFormPadded(f: UI::Form*): LibC::Int
+  fun uiFormSetPadded = uiFormSetPadded(f: UI::Form*, padded: LibC::Int)
+
+  fun newGrid = uiNewGrid: UI::Grid*
+  fun gridAppend = uiGridAppend(g: UI::Grid*, c: UI::Control*, left: LibC::Int, top: LibC::Int, xpan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
+  fun gridInsertAt = uiGridInsertAt(g: UI::Grid*, c: UI::Control*, existing: UI::Control*, at: UI::At, xspan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
+  fun gridPadded = uiGridPadded(g: UI::Grid*): LibC::Int
+  fun gridSetPadded = uiGridSetPadded(g: UI::Grid*, padded: LibC::Int)
 
   # Low Level
 
