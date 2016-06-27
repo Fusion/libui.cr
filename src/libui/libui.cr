@@ -85,252 +85,269 @@ lib UI
   # Life Cycle
 
   fun main = uiMain
-  fun mainSteps = uiMainSteps
-  fun mainStep = uiMainStep(wait: LibC::Int): LibC::Int
+  fun main_step = uiMainStep(wait: LibC::Int): LibC::Int
   fun init = uiInit(options: UI::InitOptions*): Char*
   fun uninit = uiUninit
   fun quit = uiQuit
-  fun freeText = uiFreeText(text: UInt8*)
-  fun freeInitError = uiFreeInitError(err: UInt8*)
+  fun free_text = uiFreeText(text: UInt8*)
+  fun free_init_error = uiFreeInitError(err: UInt8*)
 
   # Components
 
-  fun newMenu = uiNewMenu(name: UInt8*): UI::Menu*
-  fun menuAppendItem = uiMenuAppendItem(m: UI::Menu*, name: UInt8*): UI::MenuItem*
-  fun menuAppendCheckItem = uiMenuAppendCheckItem(m: UI::Menu*, name: UInt8*): UI::MenuItem*
-  fun menuItemOnClicked = uiMenuItemOnClicked(m: UI::MenuItem*, f: UI::MenuItem*, UI::Window*, Void* ->, data: Void*)
-  fun menuAppendQuitItem = uiMenuAppendQuitItem(m: UI::Menu*): UI::MenuItem*
-  fun menuAppendPreferencesItem = uiMenuAppendPreferencesItem(m: UI::Menu*): UI::MenuItem*
-  fun menuAppendAboutItem = uiMenuAppendAboutItem(m: UI::Menu*): UI::MenuItem*
-  fun menuAppendSeparator = uiMenuAppendSeparator(m: UI::Menu*)
-  fun onShouldQuit = uiOnShouldQuit(f: Void* -> LibC::Int, data: Void*)
-  fun menuItemDisable = uiMenuItemDisable(m: UI::MenuItem*)
+  fun new_menu = uiNewMenu(name: UInt8*): UI::Menu*
+  fun menu_append_item = uiMenuAppendItem(m: UI::Menu*, name: UInt8*): UI::MenuItem*
+  fun menu_append_check_item = uiMenuAppendCheckItem(m: UI::Menu*, name: UInt8*): UI::MenuItem*
+  fun menu_item_on_clicked = uiMenuItemOnClicked(m: UI::MenuItem*, f: UI::MenuItem*, UI::Window*, Void* ->, data: Void*)
+  fun menu_append_quit_item = uiMenuAppendQuitItem(m: UI::Menu*): UI::MenuItem*
+  fun menu_append_preferences_item = uiMenuAppendPreferencesItem(m: UI::Menu*): UI::MenuItem*
+  fun menu_append_about_item = uiMenuAppendAboutItem(m: UI::Menu*): UI::MenuItem*
+  fun menu_append_separator = uiMenuAppendSeparator(m: UI::Menu*)
+  fun on_should_quit = uiOnShouldQuit(f: Void* -> LibC::Int, data: Void*)
+  fun menu_item_disable = uiMenuItemDisable(m: UI::MenuItem*)
 
-  fun menuItemEnable = uiMenuItemEnable(m: UI::MenuItem*)
-  fun menuItemDisable = uiMenuItemDisable(m: UI::MenuItem*)
-  fun menuItemOnClicked = uiMenuItemOnClicked(m: UI::MenuItem*, f: UI::MenuItem*, UI::Window*, Void* ->, Void*)
-  fun menuItemChecked = uiMenuItemChecked(m: UI::MenuItem*): LibC::Int
-  fun menuItemSetChecked = uiMenuItemSetChecked(m: UI::MenuItem*, checked: LibC::Int)
+  fun menu_item_enable = uiMenuItemEnable(m: UI::MenuItem*)
+  fun menu_item_disable = uiMenuItemDisable(m: UI::MenuItem*)
+  fun menu_item_on_clicked = uiMenuItemOnClicked(m: UI::MenuItem*, f: UI::MenuItem*, UI::Window*, Void* ->, Void*)
+  fun menu_item_checked = uiMenuItemChecked(m: UI::MenuItem*): LibC::Int
+  fun menu_item_set_checked = uiMenuItemSetChecked(m: UI::MenuItem*, checked: LibC::Int)
 
-  fun newHorizontalSeparator = uiNewHorizontalSeparator: UI::Separator*
-  fun newVerticalSeparator = uiNewVerticalSeparator: UI::Separator*
+  fun new_horizontal_separator = uiNewHorizontalSeparator: UI::Separator*
 
-  fun newWindow = uiNewWindow(title: UInt8*, width: LibC::Int, height: LibC::Int, hasMenubar: LibC::Int): UI::Window*
-  fun windowSetMargined = uiWindowSetMargined(w: UI::Window*, margined: LibC::Int)
-  fun windowMargined = uiWindowMargined(w: UI::Window*): LibC::Int
-  fun windowPosition = uiWindowPosition(w: UI::Window*, x: LibC::Int*, y: LibC::Int*)
-  fun windowSetPosition = uiWindowSetPosition(w: UI::Window*, x: LibC::Int, y: LibC::Int)
-  fun windowCenter = uiWindowCenter(w: UI::Window*)
-  fun windowOnPositionChanged = uiWindowOnPositionChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
-  fun windowContentSize = uiWindowContentSize(w: UI::Window*, width: LibC::Int*, height: LibC::Int*)
-  fun windowSetContentSize = uiWindowSetContentSize(w: UI::Window*, width: LibC::Int, height: LibC::Int)
-  fun windowFullscreen = uiWindowFullscreen(w: UI::Window*): LibC::Int
-  fun windowSetFullscreen = uiWindowSetFullscreen(w: UI::Window*, fullscreen: LibC::Int)
-  fun windowOnContentSizeChanged = uiWindowOnContentSizeChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
-  fun windowBorderless = uiWindowBorderless(w: UI::Window*): LibC::Int
-  fun windowSetBorderless = uiWindowSetBorderless(w: UI::Window*, borderless: LibC::Int)
-  fun windowTitle = uiWindowTitle(w: UI::Window*): UInt8*
-  fun windowSetTitle = uiWindowSetTitle(w: UI::Window*, title: UInt8*)
-  fun windowOnClosing = uiWindowOnClosing(w: UI::Window*, f: UI::Window*, Void* -> LibC::Int, Void*)
-  fun windowSetChild = uiWindowSetChild(w: UI::Window*, child: UI::Control*)
+  fun new_window = uiNewWindow(title: UInt8*, width: LibC::Int, height: LibC::Int, hasMenubar: LibC::Int): UI::Window*
+  fun window_margined = uiWindowMargined(w: UI::Window*): LibC::Int
+  fun window_set_margined = uiWindowSetMargined(w: UI::Window*, margined: LibC::Int)
+  fun window_position = uiWindowPosition(w: UI::Window*, x: LibC::Int*, y: LibC::Int*)
+  fun window_set_position = uiWindowSetPosition(w: UI::Window*, x: LibC::Int, y: LibC::Int)
+  fun window_center = uiWindowCenter(w: UI::Window*)
+  fun window_on_position_changed = uiWindowOnPositionChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
+  fun window_content_size = uiWindowContentSize(w: UI::Window*, width: LibC::Int*, height: LibC::Int*)
+  fun window_set_content_size = uiWindowSetContentSize(w: UI::Window*, width: LibC::Int, height: LibC::Int)
+  fun window_fullscreen = uiWindowFullscreen(w: UI::Window*): LibC::Int
+  fun window_set_fullscreen = uiWindowSetFullscreen(w: UI::Window*, fullscreen: LibC::Int)
+  fun window_on_content_size_changed = uiWindowOnContentSizeChanged(w: UI::Window*, f: UI::Window*, Void* ->, Void*)
+  fun window_set_child = uiWindowSetChild(w: UI::Window*, child: UI::Control*)
+  fun window_title = uiWindowTitle(w: UI::Window*): UInt8*
+  fun window_set_title = uiWindowSetTitle(w: UI::Window*, title: UInt8*)
+  fun window_on_closing = uiWindowOnClosing(w: UI::Window*, f: UI::Window*, Void* -> LibC::Int, Void*)
 
-  fun newVerticalBox = uiNewVerticalBox: UI::Box*
-  fun newHorizontalBox = uiNewHorizontalBox: UI::Box*
-  fun boxAppend = uiBoxAppend(b: UI::Box*, child: UI::Control*, stretchy: LibC::Int)
-  fun boxDelete = uiBoxDelete(b: UI::Box*, index: LibC::Int)
-  fun boxSetPadded = uiBoxSetPadded(b: UI::Box*, padded: LibC::Int)
-  fun boxPadded = uiBoxPadded(b: UI::Box*): LibC::Int
+  fun new_vertical_box = uiNewVerticalBox: UI::Box*
+  fun new_horizontal_box = uiNewHorizontalBox: UI::Box*
+  fun box_append = uiBoxAppend(b: UI::Box*, child: UI::Control*, stretchy: LibC::Int)
+  fun box_delete = uiBoxDelete(b: UI::Box*, index: LibC::Int)
+  fun box_padded = uiBoxPadded(b: UI::Box*): LibC::Int
+  fun box_set_padded = uiBoxSetPadded(b: UI::Box*, padded: LibC::Int)
 
-  fun newTab = uiNewTab: UI::Tab*
-  fun tabAppend = uiTabAppend(t: UI::Tab*, name: UInt8*, c: UI::Control*)
-  fun tabInsertAt = uiTabInsertAt(t: UI::Tab*, name: UInt8*, before: UInt64, c: UI::Control*)
-  fun tabDelete = uiTabDelete(t: UI::Tab*, index: UInt64)
-  fun tabNumPages = uiTabNumPages(t: UI::Tab*): UInt64
-  fun tabMargined = uiTabMargined(t: UI::Tab*, page: UInt64): LibC::Int
-  fun tabSetMargined = uiTabSetMargined(t: UI::Tab*, page: UInt64, margined: LibC::Int)
+  fun new_tab = uiNewTab: UI::Tab*
+  fun tab_append = uiTabAppend(t: UI::Tab*, name: UInt8*, c: UI::Control*)
+  fun tab_insert_at = uiTabInsertAt(t: UI::Tab*, name: UInt8*, before: UInt64, c: UI::Control*)
+  fun tab_delete = uiTabDelete(t: UI::Tab*, index: UInt64)
+  fun tab_num_pages = uiTabNumPages(t: UI::Tab*): UInt64
+  fun tab_margined = uiTabMargined(t: UI::Tab*, page: UInt64): LibC::Int
+  fun tab_set_margined = uiTabSetMargined(t: UI::Tab*, page: UInt64, margined: LibC::Int)
 
-  fun newGroup = uiNewGroup(title: UInt8*): UI::Group*
-  fun groupTitle = uiGroupTitle(g: UI::Group*): UInt8*
-  fun groupSetTitle = uiGroupSetTitle(g: UI::Group*, title: UInt8*)
-  fun groupSetMargined = uiGroupSetMargined(g: UI::Group*, margined: LibC::Int)
-  fun groupMargined = uiGroupMargined(g: UI::Group*): LibC::Int
-  fun groupSetChild = uiGroupSetChild(g: UI::Group*, c: UI::Control*)
+  fun new_group = uiNewGroup(title: UInt8*): UI::Group*
+  fun group_title = uiGroupTitle(g: UI::Group*): UInt8*
+  fun group_set_title = uiGroupSetTitle(g: UI::Group*, title: UInt8*)
+  fun group_margined = uiGroupMargined(g: UI::Group*): LibC::Int
+  fun group_set_margined = uiGroupSetMargined(g: UI::Group*, margined: LibC::Int)
+  fun group_set_child = uiGroupSetChild(g: UI::Group*, c: UI::Control*)
 
-  fun msgBox = uiMsgBox(parent: UI::Window*, title: UInt8*, description: UInt8*)
-  fun msgBoxError = uiMsgBoxError(parent: UI::Window*, title: UInt8*, description: UInt8*)
+  fun msg_box = uiMsgBox(parent: UI::Window*, title: UInt8*, description: UInt8*)
+  fun msg_box_error = uiMsgBoxError(parent: UI::Window*, title: UInt8*, description: UInt8*)
 
-  fun openFile = uiOpenFile(parent: UI::Window*): UInt8*
-  fun saveFile = uiSaveFile(parent: UI::Window*): UInt8*
+  fun open_file = uiOpenFile(parent: UI::Window*): UInt8*
+  fun save_file = uiSaveFile(parent: UI::Window*): UInt8*
 
-  fun newButton = uiNewButton(text: UInt8*): UI::Button*
-  fun buttonText = uiButtonText(b: UI::Button*): UInt8*
-  fun buttonSetText = uiButtonSetText(b: UI::Button*, text: UInt8*)
-  fun buttonOnClicked = uiButtonOnClicked(b: UI::Button*, f: UI::Button*, Void* ->, data: Void*)
+  fun new_button = uiNewButton(text: UInt8*): UI::Button*
+  fun button_text = uiButtonText(b: UI::Button*): UInt8*
+  fun button_set_text = uiButtonSetText(b: UI::Button*, text: UInt8*)
+  fun button_on_clicked = uiButtonOnClicked(b: UI::Button*, f: UI::Button*, Void* ->, data: Void*)
 
-  fun newCheckbox = uiNewCheckbox(text: UInt8*): UI::Checkbox*
-  fun checkboxText = uiCheckboxText(c: UI::Checkbox*): UInt8*
-  fun checkboxSetText = uiCheckboxSetText(c: UI::Checkbox*, text: UInt8*)
-  fun checkboxOnToggled = uiCheckboxOnToggled(c: UI::Checkbox*, f: UI::Checkbox*, Void* ->, Void*)
-  fun checkboxChecked = uiCheckboxChecked(c: UI::Checkbox*): LibC::Int
-  fun checkboxSetChecked = uiCheckboxSetChecked(c: UI::Checkbox*, checked: LibC::Int)
+  fun new_checkbox = uiNewCheckbox(text: UInt8*): UI::Checkbox*
+  fun checkbox_text = uiCheckboxText(c: UI::Checkbox*): UInt8*
+  fun checkbox_set_text = uiCheckboxSetText(c: UI::Checkbox*, text: UInt8*)
+  fun checkbox_checked = uiCheckboxChecked(c: UI::Checkbox*): LibC::Int
+  fun checkbox_set_checked = uiCheckboxSetChecked(c: UI::Checkbox*, checked: LibC::Int)
+  fun checkbox_on_toggled = uiCheckboxOnToggled(c: UI::Checkbox*, f: UI::Checkbox*, Void* ->, Void*)
 
-  fun newEntry = uiNewEntry: UI::Entry*
-  fun newPasswordEntry = uiNewPasswordEntry: UI::Entry*
-  fun newSearchEntry = uiNewSearchEntry: UI::Entry*
+  fun new_entry = uiNewEntry: UI::Entry*
+  fun new_password_entry = uiNewPasswordEntry: UI::Entry*
+  fun new_search_entry = uiNewSearchEntry: UI::Entry*
 
-  fun entrySetText = uiEntrySetText(e: UI::Entry*, text: UInt8*)
-  fun entryTest = uiEntryText(e: UI::Entry*): UInt8*
-  fun entryOnChanged = uiEntryOnChanged(e: UI::Entry*, f: UI::Entry*, Void* ->, Void*)
-  fun entryReadOnly = uiEntryReadOnly(e: UI::Entry*): LibC::Int
-  fun entrySetReadOnly = uiEntrySetReadOnly(e: UI::Entry*, readonly: LibC::Int)
+  fun entry_text = uiEntryText(e: UI::Entry*): UInt8*
+  fun entry_set_text = uiEntrySetText(e: UI::Entry*, text: UInt8*)
+  fun entry_on_changed = uiEntryOnChanged(e: UI::Entry*, f: UI::Entry*, Void* ->, Void*)
+  fun entry_read_only = uiEntryReadOnly(e: UI::Entry*): LibC::Int
+  fun entry_set_read_only = uiEntrySetReadOnly(e: UI::Entry*, readonly: LibC::Int)
 
-  fun multilineEntry = uiNewMultilineEntry: UI::MultilineEntry*
-  fun multilineEntryText = uiMultilineEntryText(e: UI::MultilineEntry*): UInt8*
-  fun multilineEntrySetText = uiMultilineEntrySetText(e: UI::MultilineEntry*, text: UInt8*)
-  fun multilineEntryAppend = uiMultilineEntryAppend(e: UI::MultilineEntry*, text: UInt8*)
-  fun multilineEntryOnChanged = uiMultilineEntryOnChanged(e: UI::MultilineEntry*, f: UI::MultilineEntry*, Void* ->, Void*)
-  fun multilineEntryReadOnly = uiMultilineEntryReadOnly(e: UI::MultilineEntry*): LibC::Int
-  fun multilineEntrySetReadOnly = uiMultilineEntrySetReadOnly(e: UI::MultilineEntry*, readonly: LibC::Int)
+  fun multiline_entry = uiNewMultilineEntry: UI::MultilineEntry*
+  fun multiline_entry_text = uiMultilineEntryText(e: UI::MultilineEntry*): UInt8*
+  fun multiline_entry_set_text = uiMultilineEntrySetText(e: UI::MultilineEntry*, text: UInt8*)
+  fun multiline_entry_append = uiMultilineEntryAppend(e: UI::MultilineEntry*, text: UInt8*)
+  fun multiline_entry_on_changed = uiMultilineEntryOnChanged(e: UI::MultilineEntry*, f: UI::MultilineEntry*, Void* ->, Void*)
+  fun multiline_entry_read_only = uiMultilineEntryReadOnly(e: UI::MultilineEntry*): LibC::Int
+  fun multiline_entry_set_read_only = uiMultilineEntrySetReadOnly(e: UI::MultilineEntry*, readonly: LibC::Int)
 
-  fun newLabel = uiNewLabel(text: UInt8*): UI::Label*
-  fun labelText = uiLabelText(l: UI::Label*): UInt8*
-  fun labelSetText = uiLabelSetText(l: UI::Label*, text: UInt8*)
+  fun new_label = uiNewLabel(text: UInt8*): UI::Label*
+  fun label_text = uiLabelText(l: UI::Label*): UInt8*
+  fun label_set_text = uiLabelSetText(l: UI::Label*, text: UInt8*)
 
-  fun newDateTimePicker = uiNewDateTimePicker: UI::DateTimePicker*
-  fun newDatePicker = uiNewDatePicker: UI::DateTimePicker*
-  fun newTimePicker = uiNewTimePicker: UI::DateTimePicker*
+  fun new_date_time_picker = uiNewDateTimePicker: UI::DateTimePicker*
+  fun new_date_picker = uiNewDatePicker: UI::DateTimePicker*
+  fun new_time_picker = uiNewTimePicker: UI::DateTimePicker*
 
-  fun newSpinbox = uiNewSpinbox(min: Int64, max: Int64): UI::Spinbox*
-  fun spinboxValue = uiSpinboxValue(s: UI::Spinbox*): Int64
-  fun spinboxSetValue = uiSpinboxSetValue(s: UI::Spinbox*, value: Int64)
-  fun spinboxOnChanged = uiSpinboxOnChanged(s: UI::Spinbox*, f: UI::Spinbox*, Void* ->, Void*)
+  fun new_spinbox = uiNewSpinbox(min: Int64, max: Int64): UI::Spinbox*
+  fun spinbox_value = uiSpinboxValue(s: UI::Spinbox*): Int64
+  fun spinbox_set_value = uiSpinboxSetValue(s: UI::Spinbox*, value: Int64)
+  fun spinbox_on_changed = uiSpinboxOnChanged(s: UI::Spinbox*, f: UI::Spinbox*, Void* ->, Void*)
 
-  fun newProgressBar = uiNewProgressBar: UI::ProgressBar*
-  fun progressBarValue = uiProgressBarValue(p: UI::ProgressBar*): LibC::Int
-  fun progressBarSetValue = uiProgressBarSetValue(p: UI::ProgressBar*, n: LibC::Int)
+  fun new_progress_bar = uiNewProgressBar: UI::ProgressBar*
+  fun progress_bar_value = uiProgressBarValue(p: UI::ProgressBar*): LibC::Int
+  fun progress_bar_set_value = uiProgressBarSetValue(p: UI::ProgressBar*, n: LibC::Int)
 
-  fun newSlider = uiNewSlider(min: Int64, max: Int64): UI::Slider*
-  fun sliderValue = uiSliderValue(s: UI::Slider*): Int64
-  fun sliderSetValue = uiSliderSetValue(s: UI::Slider*, value: Int64)
-  fun sliderOnChanged = uiSliderOnChanged(s: UI::Slider*, f: UI::Slider*, Void* ->, Void*)
+  fun new_slider = uiNewSlider(min: Int64, max: Int64): UI::Slider*
+  fun slider_value = uiSliderValue(s: UI::Slider*): Int64
+  fun slider_set_value = uiSliderSetValue(s: UI::Slider*, value: Int64)
+  fun slider_on_changed = uiSliderOnChanged(s: UI::Slider*, f: UI::Slider*, Void* ->, Void*)
 
-  fun newCombobox = uiNewCombobox: UI::Combobox*
-  fun comboboxAppend = uiComboboxAppend(c: UI::Combobox*, text: UInt8*)
-  fun comboboxSelected = uiComboboxSelected(c: UI::Combobox*): Int64
-  fun comboboxSetSelected = uiComboboxSetSelected(c: UI::Combobox*, n: Int64)
-  fun comboboxOnSelected = uiComboboxOnSelected(c: UI::Combobox*, f: UI::Combobox*, Void* ->, Void*)
+  fun new_combobox = uiNewCombobox: UI::Combobox*
+  fun combobox_append = uiComboboxAppend(c: UI::Combobox*, text: UInt8*)
+  fun combobox_selected = uiComboboxSelected(c: UI::Combobox*): Int64
+  fun combobox_set_selected = uiComboboxSetSelected(c: UI::Combobox*, n: Int64)
+  fun combobox_on_selected = uiComboboxOnSelected(c: UI::Combobox*, f: UI::Combobox*, Void* ->, Void*)
 
-  fun newEditableCombobox = uiNewEditableCombobox: UI::EditableCombobox*
-  fun editableComboboxAppend = uiEditableComboboxAppend(c: UI::EditableCombobox*, text: UInt8*)
-  fun editableComboboxText = uiEditableComboboxText(c: UI::EditableCombobox*): UInt8*
-  fun editableComboboxSetText = uiEditableComboboxSetText(c: UI::EditableCombobox*, text: UInt8*)
-  fun editableComboboxOnChanged = uiEditableComboboxOnChanged(c: UI::EditableCombobox*, f: UI::Combobox*, Void* ->, Void*)
+  fun new_editable_combobox = uiNewEditableCombobox: UI::EditableCombobox*
+  fun editable_combobox_append = uiEditableComboboxAppend(c: UI::EditableCombobox*, text: UInt8*)
+  fun editable_combobox_text = uiEditableComboboxText(c: UI::EditableCombobox*): UInt8*
+  fun editable_combobox_set_text = uiEditableComboboxSetText(c: UI::EditableCombobox*, text: UInt8*)
+  fun editable_combobox_on_changed = uiEditableComboboxOnChanged(c: UI::EditableCombobox*, f: UI::Combobox*, Void* ->, Void*)
 
-  fun newRadioButtons = uiNewRadioButtons: UI::RadioButtons*
-  fun radioButtonsAppend = uiRadioButtonsAppend(r: UI::RadioButtons*, text: UInt8*)
-  fun radioButtonsSelected = uiRadioButtonsSelected(r: UI::RadioButtons*): LibC::Int
-  fun radioButtonsSetSelected = uiRadioButtonsSetSelected(r: UI::RadioButtons*, n: LibC::Int)
-  fun radioButtonsOnSelected = uiRadioButtonsOnSelected(r: UI::RadioButtons, f: UI::RadioButtons*, Void* ->, Void*)
+  fun new_radio_buttons = uiNewRadioButtons: UI::RadioButtons*
+  fun radio_buttons_append = uiRadioButtonsAppend(r: UI::RadioButtons*, text: UInt8*)
+  fun radio_buttons_selected = uiRadioButtonsSelected(r: UI::RadioButtons*): LibC::Int
+  fun radio_buttons_set_selected = uiRadioButtonsSetSelected(r: UI::RadioButtons*, n: LibC::Int)
+  fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r: UI::RadioButtons, f: UI::RadioButtons*, Void* ->, Void*)
 
-  fun newFontButton = uiNewFontButton: UI::FontButton*
-  fun fontButtonFont = uiFontButtonFont(b: UI::FontButton*): UI::DrawTextFont*
-  fun fontButtonOnChanged = uiFontButtonOnChanged(b: UI::FontButton*, f: UI::FontButton*, Void* ->, Void*)
+  fun new_font_button = uiNewFontButton: UI::FontButton*
+  fun font_button_font = uiFontButtonFont(b: UI::FontButton*): UI::DrawTextFont*
+  fun font_button_on_changed = uiFontButtonOnChanged(b: UI::FontButton*, f: UI::FontButton*, Void* ->, Void*)
 
-  fun newColorButton = uiNewColorButton: UI::ColorButton*
-  fun colorButtonColor = uiColorButtonColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
-  fun colorButtonSetColor = uiColorButtonSetColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
-  fun colorButtonOnChanged = uiColorButtonOnChanged(b: UI::ColorButton*, f: UI::ColorButton*, Void* ->, Void*)
+  fun new_color_button = uiNewColorButton: UI::ColorButton*
+  fun color_button_color = uiColorButtonColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
+  fun color_button_set_color = uiColorButtonSetColor(b: UI::ColorButton*, r: LibC::Double, g: LibC::Double, bl: LibC::Double, a: LibC::Double)
+  fun color_button_on_changed = uiColorButtonOnChanged(b: UI::ColorButton*, f: UI::ColorButton*, Void* ->, Void*)
 
-  fun newForm = uiNewForm: UI::Form*
-  fun formAppend = uiFormAppend(f: UI::Form*, label: UInt8*, c: UI::Control*, stretchy: LibC::Int)
-  fun formDelete = uiFormDelete(f: UI::Form*, index: LibC::Int)
-  fun formPadded = uiFormPadded(f: UI::Form*): LibC::Int
-  fun uiFormSetPadded = uiFormSetPadded(f: UI::Form*, padded: LibC::Int)
+  fun new_form = uiNewForm: UI::Form*
+  fun form_append = uiFormAppend(f: UI::Form*, label: UInt8*, c: UI::Control*, stretchy: LibC::Int)
+  fun form_delete = uiFormDelete(f: UI::Form*, index: LibC::Int)
+  fun form_padded = uiFormPadded(f: UI::Form*): LibC::Int
+  fun form_set_padded = uiFormSetPadded(f: UI::Form*, padded: LibC::Int)
 
-  fun newGrid = uiNewGrid: UI::Grid*
-  fun gridAppend = uiGridAppend(g: UI::Grid*, c: UI::Control*, left: LibC::Int, top: LibC::Int, xpan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
-  fun gridInsertAt = uiGridInsertAt(g: UI::Grid*, c: UI::Control*, existing: UI::Control*, at: UI::At, xspan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
-  fun gridPadded = uiGridPadded(g: UI::Grid*): LibC::Int
-  fun gridSetPadded = uiGridSetPadded(g: UI::Grid*, padded: LibC::Int)
+  fun new_grid = uiNewGrid: UI::Grid*
+  fun grid_append = uiGridAppend(g: UI::Grid*, c: UI::Control*, left: LibC::Int, top: LibC::Int, xpan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
+  fun grid_insert_at = uiGridInsertAt(g: UI::Grid*, c: UI::Control*, existing: UI::Control*, at: UI::At, xspan: LibC::Int, yspan: LibC::Int, hexpand: LibC::Int, halign: UI::Align, vexpand: LibC::Int, valign: UI::Align)
+  fun grid_padded = uiGridPadded(g: UI::Grid*): LibC::Int
+  fun grid_set_padded = uiGridSetPadded(g: UI::Grid*, padded: LibC::Int)
 
   # Low Level
 
-  fun newArea = uiNewArea(ah: UI::AreaHandler*): UI::Area*
-  fun newScrollingArea = uiNewScrollingArea(ah: UI::AreaHandler*, width: Int64, height: Int64): UI::Area*
-  fun areaSetSize = uiAreaSetSize(a: UI::Area*, width: Int64, height: Int64)
-  fun areaQueueRedrawal = uiAreaQueueRedrawAll(a: UI::Area*)
-  fun areaScrollTo = uiAreaScrollTo(a: UI::Area*, x: LibC::Double, y: LibC::Double, width: LibC::Double, height: LibC::Double)
+  fun new_area = uiNewArea(ah: UI::AreaHandler*): UI::Area*
+  fun new_scrolling_area = uiNewScrollingArea(ah: UI::AreaHandler*, width: Int64, height: Int64): UI::Area*
+  fun area_set_size = uiAreaSetSize(a: UI::Area*, width: Int64, height: Int64)
+  fun area_queue_redrawal = uiAreaQueueRedrawAll(a: UI::Area*)
+  fun area_scroll_to = uiAreaScrollTo(a: UI::Area*, x: LibC::Double, y: LibC::Double, width: LibC::Double, height: LibC::Double)
 
-  fun drawPath = uiDrawNewPath(fillMode: UI::DrawFillMode): UI::DrawPath*
-  fun drawFreePath = uiDrawFreePath(p: UI::DrawPath*)
-  fun drawPathNewFigure = uiDrawPathNewFigure(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double)
-  fun drawPathNewfigureWithArc = uiDrawPathNewFigureWithArc(p: UI::DrawPath*, xCenter: LibC::Double, yCenter: LibC::Double, radius: LibC::Double, startAngle: LibC::Double, sweep: LibC::Double, negative: LibC::Int)
-  fun drawPathLineTo = uiDrawPathLineTo(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double)
-  fun drawPathArcTo = uiDrawPathArcTo(p: UI::DrawPath*, xCenter: LibC::Double*, yCenter: LibC::Double*, radius: LibC::Double, startAngle: LibC::Double, sweep: LibC::Double, negative: LibC::Int)
-  fun drawPathBezierTo = uiDrawPathBezierTo(p: UI::DrawPath*, c1x: LibC::Double, c1y: LibC::Double, c2x: LibC::Double, c2y: LibC::Double, endX: LibC::Double, endY: LibC::Double)
-  fun drawPathCloseFigure = uiDrawPathCloseFigure(p: UI::DrawPath*)
-  fun drawPathAddRectangle = uiDrawPathAddRectangle(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double, width: LibC::Double, height: LibC::Double)
-  fun drawPathEnd = uiDrawPathEnd(p: UI::DrawPath*)
-  fun drawPathStroke = uiDrawStroke(c: UI::DrawContext*, path: UI::DrawPath*, b: UI::DrawBrush*, p: UI::DrawStrokeParams*)
-  fun drawFill = uiDrawFill(c: UI::DrawContext*, path: UI::DrawPath*, b: UI::DrawBrush*)
-  fun drawMatrixSetIdentity = uiDrawMatrixSetIdentity(m: UI::DrawMatrix*)
-  fun drawMatrixTranslate = uiDrawMatrixTranslate(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double)
-  fun drawMatrixScale = uiDrawMatrixScale(m: UI::DrawMatrix*, xCenter: LibC::Double*, yCenter: LibC::Double*, x: LibC::Double, y: LibC::Double)
-  fun drawMatrixRotate = uiDrawMatrixRotate(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double, amount: LibC::Double)
-  fun drawMatrixSkew =  uiDrawMatrixSkew(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double, xamount: LibC::Double, yamount: LibC::Double)
-  fun drawMatrixMultiply = uiDrawMatrixMultiply(dest: UI::DrawMatrix*, src: UI::DrawMatrix*)
-  fun drawMatrixInvertible = uiDrawMatrixInvertible(m: UI::DrawMatrix*): LibC::Int
-  fun drawMatrixInvert =  uiDrawMatrixInvert(m: UI::DrawMatrix*): LibC::Int
-  fun drawMatrixTransformPoint = uiDrawMatrixTransformPoint(m: UI::DrawMatrix*, x: LibC::Double*, y: LibC::Double*)
-  fun drawMatrixTransformSize = uiDrawMatrixTransformSize(m: UI::DrawMatrix*, x: LibC::Double*, y: LibC::Double*)
-  fun drawTransform = uiDrawTransform(c: UI::DrawContext*, m: UI::DrawMatrix*)
-  fun drawClip = uiDrawClip(c: UI::DrawContext*, path: UI::DrawPath*)
-  fun drawSave = uiDrawSave(c: UI::DrawContext*)
-  fun drawRestore = uiDrawRestore(c: UI::DrawContext*)
-  fun drawFontFamilies = uiDrawListFontFamilies: UI::DrawFontFamilies*
-  fun drawFontFamiliesNumFamilies = uiDrawFontFamiliesNumFamilies(ff: UI::DrawFontFamilies*): UInt64
-  fun drawFontFamiliesFamiliy = uiDrawFontFamiliesFamily(ff: UI::DrawFontFamilies*, n: UInt64): UInt8*
-  fun drawFreeFrontFamilies = uiDrawFreeFontFamilies(ff: UI::DrawFontFamilies*)
-  fun drawLoadClosestFont = uiDrawLoadClosestFont(desc: UI::DrawTextFontDescriptor*): UI::DrawTextFont*
-  fun drawFreeTextFont = uiDrawFreeTextFont(font: UI::DrawTextFont*)
-  fun drawTextFontHandle = uiDrawTextFontHandle(font: UI::DrawTextFont*): UInt64
-  fun drawTextFontDescribe = uiDrawTextFontDescribe(font: UI::DrawTextFont*, desc: UI::DrawTextFontDescriptor*)
-  fun drawTextFontGetMetrics = uiDrawTextFontGetMetrics(font: UI::DrawTextFont*, metrics: UI::DrawTextFontMetrics*)
-  fun drawNewTextLayout = uiDrawNewTextLayout(text: UInt8*, defaultFont: UI::DrawTextFont*, width: LibC::Double): UI::DrawTextLayout*
-  fun drawFreeTextLayout = uiDrawFreeTextLayout(layout: UI::DrawTextLayout*)
-  fun drawTextLayoutSetWidth = uiDrawTextLayoutSetWidth(layout: UI::DrawTextLayout*, width: LibC::Double)
-  fun drawTextLayoutExtents = uiDrawTextLayoutExtents(layout: UI::DrawTextLayout*, width: LibC::Double*, height: LibC::Double*);
-  fun drawTextLayoutSetColor = uiDrawTextLayoutSetColor(layout: UI::DrawTextLayout*, startChar: Int64, endChar: Int64, r: LibC::Double, g: LibC::Double, b: LibC::Double, a: LibC::Double)
-  fun drawText = uiDrawText(c: UI::DrawContext*, x: LibC::Double, y: LibC::Double, layout: UI::DrawTextLayout*)
+  fun draw_path = uiDrawNewPath(fillMode: UI::DrawFillMode): UI::DrawPath*
+  fun draw_free_path = uiDrawFreePath(p: UI::DrawPath*)
+  fun draw_path_new_figure = uiDrawPathNewFigure(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double)
+  fun draw_path_new_figure_with_arc = uiDrawPathNewFigureWithArc(p: UI::DrawPath*, xCenter: LibC::Double, yCenter: LibC::Double, radius: LibC::Double, startAngle: LibC::Double, sweep: LibC::Double, negative: LibC::Int)
+  fun draw_path_line_to = uiDrawPathLineTo(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double)
+  fun draw_path_arc_to = uiDrawPathArcTo(p: UI::DrawPath*, xCenter: LibC::Double*, yCenter: LibC::Double*, radius: LibC::Double, startAngle: LibC::Double, sweep: LibC::Double, negative: LibC::Int)
+  fun draw_path_bezier_to = uiDrawPathBezierTo(p: UI::DrawPath*, c1x: LibC::Double, c1y: LibC::Double, c2x: LibC::Double, c2y: LibC::Double, endX: LibC::Double, endY: LibC::Double)
+  fun draw_path_close_figure = uiDrawPathCloseFigure(p: UI::DrawPath*)
+  fun draw_path_add_rectangle = uiDrawPathAddRectangle(p: UI::DrawPath*, x: LibC::Double, y: LibC::Double, width: LibC::Double, height: LibC::Double)
+  fun draw_path_end = uiDrawPathEnd(p: UI::DrawPath*)
+  fun draw_path_stroke = uiDrawStroke(c: UI::DrawContext*, path: UI::DrawPath*, b: UI::DrawBrush*, p: UI::DrawStrokeParams*)
+  fun draw_fill = uiDrawFill(c: UI::DrawContext*, path: UI::DrawPath*, b: UI::DrawBrush*)
+  fun draw_matrix_set_identity = uiDrawMatrixSetIdentity(m: UI::DrawMatrix*)
+  fun draw_matrix_translate = uiDrawMatrixTranslate(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double)
+  fun draw_matrix_scale = uiDrawMatrixScale(m: UI::DrawMatrix*, xCenter: LibC::Double*, yCenter: LibC::Double*, x: LibC::Double, y: LibC::Double)
+  fun draw_matrix_rotate = uiDrawMatrixRotate(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double, amount: LibC::Double)
+  fun draw_matrix_skew =  uiDrawMatrixSkew(m: UI::DrawMatrix*, x: LibC::Double, y: LibC::Double, xamount: LibC::Double, yamount: LibC::Double)
+  fun draw_matrix_multiply = uiDrawMatrixMultiply(dest: UI::DrawMatrix*, src: UI::DrawMatrix*)
+  fun draw_matrix_invertible = uiDrawMatrixInvertible(m: UI::DrawMatrix*): LibC::Int
+  fun draw_matrix_invert =  uiDrawMatrixInvert(m: UI::DrawMatrix*): LibC::Int
+  fun draw_matrix_transform_point = uiDrawMatrixTransformPoint(m: UI::DrawMatrix*, x: LibC::Double*, y: LibC::Double*)
+  fun draw_matrix_transform_size = uiDrawMatrixTransformSize(m: UI::DrawMatrix*, x: LibC::Double*, y: LibC::Double*)
+  fun draw_transform = uiDrawTransform(c: UI::DrawContext*, m: UI::DrawMatrix*)
+  fun draw_clip = uiDrawClip(c: UI::DrawContext*, path: UI::DrawPath*)
+  fun draw_save = uiDrawSave(c: UI::DrawContext*)
+  fun draw_restore = uiDrawRestore(c: UI::DrawContext*)
+  fun draw_font_families = uiDrawListFontFamilies: UI::DrawFontFamilies*
+  fun draw_font_families_num_families = uiDrawFontFamiliesNumFamilies(ff: UI::DrawFontFamilies*): UInt64
+  fun draw_font_families_familiy = uiDrawFontFamiliesFamily(ff: UI::DrawFontFamilies*, n: UInt64): UInt8*
+  fun draw_free_font_families = uiDrawFreeFontFamilies(ff: UI::DrawFontFamilies*)
+  fun draw_load_closest_font = uiDrawLoadClosestFont(desc: UI::DrawTextFontDescriptor*): UI::DrawTextFont*
+  fun draw_free_text_font = uiDrawFreeTextFont(font: UI::DrawTextFont*)
+  fun draw_text_font_handle = uiDrawTextFontHandle(font: UI::DrawTextFont*): UInt64
+  fun draw_text_font_describe = uiDrawTextFontDescribe(font: UI::DrawTextFont*, desc: UI::DrawTextFontDescriptor*)
+  fun draw_text_font_get_metrics = uiDrawTextFontGetMetrics(font: UI::DrawTextFont*, metrics: UI::DrawTextFontMetrics*)
+  fun drawNew_text_layout = uiDrawNewTextLayout(text: UInt8*, defaultFont: UI::DrawTextFont*, width: LibC::Double): UI::DrawTextLayout*
+  fun drawFree_text_layout = uiDrawFreeTextLayout(layout: UI::DrawTextLayout*)
+  fun draw_text_layout_set_width = uiDrawTextLayoutSetWidth(layout: UI::DrawTextLayout*, width: LibC::Double)
+  fun draw_text_layout_extents = uiDrawTextLayoutExtents(layout: UI::DrawTextLayout*, width: LibC::Double*, height: LibC::Double*);
+  fun draw_text_layout_set_color = uiDrawTextLayoutSetColor(layout: UI::DrawTextLayout*, startChar: Int64, endChar: Int64, r: LibC::Double, g: LibC::Double, b: LibC::Double, a: LibC::Double)
+  fun draw_text = uiDrawText(c: UI::DrawContext*, x: LibC::Double, y: LibC::Double, layout: UI::DrawTextLayout*)
 
   # Generic Control Handling
 
-  fun allocControl = uiAllocControl(n: LibC::SizeT, ossig: LibC::Int, typesig: LibC::Int, typenamestr: UInt8*): UI::Control*
-  fun freeControl = uiFreeControl(c: UI::Control*)
-  fun controlVerifyDestroy = uiControlVerifyDestroy(c: UI::Control*)
-  fun controlVerifySetParent = uiControlVerifySetParent(c: UI::Control*, p: UI::Control*)
-  fun controlEnabledToUser = uiControlEnabledToUser(c: UI::Control*): LibC::Int
-  fun controlShow = uiControlShow(c: UI::Control*)
-  fun controlDestroy = uiControlDestroy(c: UI::Control*)
-  fun controlHandle = uiControlHandle(c: UI::Control*): UInt64
-  fun controlParent = uiControlParent(c: UI::Control*): UI::Control*
-  fun controlSetParent = uiControlSetParent(c: UI::Control*, p: UI::Control*)
-  fun controlTopLevel = uiControlToplevel(c: UI::Control*): LibC::Int
-  fun controlVisible = uiControlVisible(c: UI::Control*): LibC::Int
-  fun controlShow = uiControlShow(c: UI::Control*)
-  fun controlHide = uiControlHide(c: UI::Control*)
-  fun controlEnabled = uiControlEnabled(c: UI::Control*): LibC::Int
-  fun controlEnable = uiControlEnable(c: UI::Control*)
-  fun controlDisable = uiControlDisable(c: UI::Control*)
+  fun alloc_control = uiAllocControl(n: LibC::SizeT, ossig: LibC::Int, typesig: LibC::Int, typenamestr: UInt8*): UI::Control*
+  fun free_control = uiFreeControl(c: UI::Control*)
+  fun control_verify_destroy = uiControlVerifyDestroy(c: UI::Control*)
+  fun control_verify_set_parent = uiControlVerifySetParent(c: UI::Control*, p: UI::Control*)
+  fun control_enabled_to_user = uiControlEnabledToUser(c: UI::Control*): LibC::Int
+  fun control_show = uiControlShow(c: UI::Control*)
+  fun control_destroy = uiControlDestroy(c: UI::Control*)
+  fun control_handle = uiControlHandle(c: UI::Control*): UInt64
+  fun control_parent = uiControlParent(c: UI::Control*): UI::Control*
+  fun control_set_parent = uiControlSetParent(c: UI::Control*, p: UI::Control*)
+  fun control_top_level = uiControlToplevel(c: UI::Control*): LibC::Int
+  fun control_visible = uiControlVisible(c: UI::Control*): LibC::Int
+  fun control_show = uiControlShow(c: UI::Control*)
+  fun control_hide = uiControlHide(c: UI::Control*)
+  fun control_enabled = uiControlEnabled(c: UI::Control*): LibC::Int
+  fun control_enable = uiControlEnable(c: UI::Control*)
+  fun control_disable = uiControlDisable(c: UI::Control*)
 end
 
 
 # Some Sugar
 
-macro uiControl(control)
+macro ui_control(control)
   {{control}} as UI::Control*
 end
 
-macro uiNil?(ptr)
+macro ui_nil?(ptr)
   {{ptr}}.null?
+end
+
+module CUI
+  def init: Boolean
+    o = UI::InitOptions.new
+    err = UI.init pointerof(o)
+    if !uiNil?(err)
+      return false
+    end
+    true
+  end
+
+  class Menu
+    def init(text : String)
+      @menu = UI.newMenu text
+    end
+
+    def append(name : String)
+      UI.menuAppendItem @menu, name
+    end
+  end
 end

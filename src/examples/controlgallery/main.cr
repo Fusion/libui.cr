@@ -8,173 +8,173 @@ class ControlGallery
   def initialize
     o = UI::InitOptions.new
     err = UI.init pointerof(o)
-    if !uiNil?(err)
+    if !ui_nil?(err)
       puts "error initializing ui: #{err}"
       exit 1
     end
 
-    onClosing = ->(w: UI::Window*, data: Void*) {
-      UI.controlDestroy uiControl(@@mainwin.not_nil!)
+    on_closing = ->(w: UI::Window*, data: Void*) {
+      UI.control_destroy ui_control(@@mainwin.not_nil!)
       UI.quit
       0
     }
 
-    shouldquit = ->(data: Void*) {
-      UI.controlDestroy uiControl(@@mainwin.not_nil!)
+    should_quit = ->(data: Void*) {
+      UI.control_destroy ui_control(@@mainwin.not_nil!)
       1
     }
 
-    openClicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    open_clicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
       mainwin = @@mainwin
-      filename = UI.openFile mainwin
-      if uiNil?(filename)
-        UI.msgBoxError mainwin, "No file selected", "Don't be alarmed!"
+      filename = UI.open_file mainwin
+      if ui_nil?(filename)
+        UI.msg_box_error mainwin, "No file selected", "Don't be alarmed!"
       else
-        UI.msgBox mainwin, "File selected", filename
-        UI.freeText filename
+        UI.msg_box mainwin, "File selected", filename
+        UI.free_text filename
       end
     }
 
-    saveClicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    save_clicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
       mainwin = @@mainwin
-      filename = UI.saveFile mainwin
-      if uiNil?(filename)
-        UI.msgBoxError mainwin, "No file selected", "Don't be alarmed!"
+      filename = UI.save_file mainwin
+      if ui_nil?(filename)
+        UI.msg_box_error mainwin, "No file selected", "Don't be alarmed!"
       else
-        UI.msgBox mainwin, "File selected (don't worry, it's still there)", filename
-        UI.freeText filename
+        UI.msg_box mainwin, "File selected (don't worry, it's still there)", filename
+        UI.free_text filename
       end
     }
 
-    onSpinboxChanged = ->(s: UI::Spinbox*, data: Void*) {
-      value = UI.spinboxValue @@spinbox
-      UI.sliderSetValue @@slider, value
-      UI.progressBarSetValue @@progressbar, value
+    on_spinbox_changed = ->(s: UI::Spinbox*, data: Void*) {
+      value = UI.spinbox_value @@spinbox
+      UI.slider_set_value @@slider, value
+      UI.progress_bar_set_value @@progressbar, value
     }
 
-    onSliderChanged = ->(s: UI::Slider*, data: Void*) {
-      value = UI.sliderValue @@slider
-      UI.spinboxSetValue @@spinbox, value
-      UI.progressBarSetValue @@progressbar, value
+    on_slider_changed = ->(s: UI::Slider*, data: Void*) {
+      value = UI.slider_value @@slider
+      UI.spinbox_set_value @@spinbox, value
+      UI.progress_bar_set_value @@progressbar, value
     }
 
-    menu = UI.newMenu "File"
-    item = UI.menuAppendItem menu, "Open"
-    UI.menuItemOnClicked item, openClicked, nil
-    item = UI.menuAppendItem menu, "Save"
-    UI.menuItemOnClicked item, saveClicked, nil
-    item = UI.menuAppendQuitItem menu
-    UI.onShouldQuit shouldquit, nil
+    menu = UI.new_menu "File"
+    item = UI.menu_append_item menu, "Open"
+    UI.menu_item_on_clicked item, open_clicked, nil
+    item = UI.menu_append_item menu, "Save"
+    UI.menu_item_on_clicked item, save_clicked, nil
+    item = UI.menu_append_quit_item menu
+    UI.on_should_quit should_quit, nil
 
-    menu = UI.newMenu "Edit"
-    item = UI.menuAppendCheckItem menu, "Checkable Item"
-    UI.menuAppendSeparator menu
-    item = UI.menuAppendItem menu, "Disabled Item"
-    UI.menuItemDisable item
-    item = UI.menuAppendPreferencesItem menu
+    menu = UI.new_menu "Edit"
+    item = UI.menu_append_check_item menu, "Checkable Item"
+    UI.menu_append_separator menu
+    item = UI.menu_append_item menu, "Disabled Item"
+    UI.menu_item_disable item
+    item = UI.menu_append_preferences_item menu
 
-    menu = UI.newMenu "Help"
-    item = UI.menuAppendItem menu, "Help"
-    item = UI.menuAppendAboutItem menu
+    menu = UI.new_menu "Help"
+    item = UI.menu_append_item menu, "Help"
+    item = UI.menu_append_about_item menu
 
-    @@mainwin = UI.newWindow "libui control gallery", 640, 480, 1
+    @@mainwin = UI.new_window "libui control gallery", 640, 480, 1
     mainwin = @@mainwin.not_nil!
-    UI.windowSetMargined mainwin, 1
-    UI.windowOnClosing mainwin, onClosing, nil
+    UI.window_set_margined mainwin, 1
+    UI.window_on_closing mainwin, on_closing, nil
 
-    box = UI.newVerticalBox
-    UI.boxSetPadded box, 1
-    UI.windowSetChild mainwin, uiControl(box)
+    box = UI.new_vertical_box
+    UI.box_set_padded box, 1
+    UI.window_set_child mainwin, ui_control(box)
 
-    hbox = UI.newHorizontalBox
-    UI.boxSetPadded hbox, 1
-    UI.boxAppend box, uiControl(hbox), 1
+    hbox = UI.new_horizontal_box
+    UI.box_set_padded hbox, 1
+    UI.box_append box, ui_control(hbox), 1
 
-    group = UI.newGroup "Basic Controls".to_unsafe
-    UI.groupSetMargined group, 1
-    UI.boxAppend hbox, uiControl(group), 0
+    group = UI.new_group "Basic Controls".to_unsafe
+    UI.group_set_margined group, 1
+    UI.box_append hbox, ui_control(group), 0
 
-    inner = UI.newVerticalBox
-    UI.boxSetPadded inner, 1
-    UI.groupSetChild group, uiControl(inner)
+    inner = UI.new_vertical_box
+    UI.box_set_padded inner, 1
+    UI.group_set_child group, ui_control(inner)
 
-    UI.boxAppend inner, uiControl(UI.newButton("Button")), 0
-    UI.boxAppend inner, uiControl(UI.newCheckbox("Checkbox")), 0
-    entry = UI.newEntry
-    UI.entrySetText entry, "Entry"
-    UI.boxAppend inner, uiControl(entry), 0
-    UI.boxAppend inner, uiControl(UI.newLabel "Label"), 0
+    UI.box_append inner, ui_control(UI.new_button("Button")), 0
+    UI.box_append inner, ui_control(UI.new_checkbox("Checkbox")), 0
+    entry = UI.new_entry
+    UI.entry_set_text entry, "Entry"
+    UI.box_append inner, ui_control(entry), 0
+    UI.box_append inner, ui_control(UI.new_label "Label"), 0
 
-    UI.boxAppend inner, uiControl(UI.newHorizontalSeparator), 0
+    UI.box_append inner, ui_control(UI.new_horizontal_separator), 0
 
-    UI.boxAppend inner, uiControl(UI.newDatePicker), 0
-    UI.boxAppend inner, uiControl(UI.newTimePicker), 0
-    UI.boxAppend inner, uiControl(UI.newDateTimePicker), 0
+    UI.box_append inner, ui_control(UI.new_date_picker), 0
+    UI.box_append inner, ui_control(UI.new_time_picker), 0
+    UI.box_append inner, ui_control(UI.new_date_time_picker), 0
 
-    UI.boxAppend inner, uiControl(UI.newFontButton), 0
-    UI.boxAppend inner, uiControl(UI.newColorButton), 0
+    UI.box_append inner, ui_control(UI.new_font_button), 0
+    UI.box_append inner, ui_control(UI.new_color_button), 0
 
-    inner2 = UI.newVerticalBox
-    UI.boxSetPadded inner2, 1
-    UI.boxAppend hbox, uiControl(inner2), 1
+    inner2 = UI.new_vertical_box
+    UI.box_set_padded inner2, 1
+    UI.box_append hbox, ui_control(inner2), 1
 
-    group = UI.newGroup "Numbers"
-    UI.groupSetMargined group, 1
-    UI.boxAppend inner2, uiControl(group), 0
+    group = UI.new_group "Numbers"
+    UI.group_set_margined group, 1
+    UI.box_append inner2, ui_control(group), 0
 
-    inner = UI.newVerticalBox
-    UI.boxSetPadded inner, 1
-    UI.groupSetChild group, uiControl(inner)
+    inner = UI.new_vertical_box
+    UI.box_set_padded inner, 1
+    UI.group_set_child group, ui_control(inner)
 
-    @@spinbox = UI.newSpinbox 0, 100
+    @@spinbox = UI.new_spinbox 0, 100
     spinbox = @@spinbox.not_nil!
-    UI.spinboxOnChanged spinbox, onSpinboxChanged, nil
-    UI.boxAppend inner, uiControl(spinbox), 0
+    UI.spinbox_on_changed spinbox, on_spinbox_changed, nil
+    UI.box_append inner, ui_control(spinbox), 0
 
-    @@slider = UI.newSlider 0, 100
+    @@slider = UI.new_slider 0, 100
     slider = @@slider.not_nil!
-    UI.sliderOnChanged slider, onSliderChanged, nil
-    UI.boxAppend inner, uiControl(slider), 0
+    UI.slider_on_changed slider, on_slider_changed, nil
+    UI.box_append inner, ui_control(slider), 0
 
-    @@progressbar = UI.newProgressBar
+    @@progressbar = UI.new_progress_bar
     progressbar = @@progressbar.not_nil!
-    UI.boxAppend inner, uiControl(progressbar), 0
+    UI.box_append inner, ui_control(progressbar), 0
 
-    group = UI.newGroup "Lists"
-    UI.groupSetMargined group, 1
-    UI.boxAppend inner2, uiControl(group), 0
+    group = UI.new_group "Lists"
+    UI.group_set_margined group, 1
+    UI.box_append inner2, ui_control(group), 0
 
-    inner = UI.newVerticalBox
-    UI.boxSetPadded inner, 1
-    UI.groupSetChild group, uiControl(inner)
+    inner = UI.new_vertical_box
+    UI.box_set_padded inner, 1
+    UI.group_set_child group, ui_control(inner)
 
-    cbox = UI.newCombobox
-    UI.comboboxAppend cbox, "Combobox Item 1"
-    UI.comboboxAppend cbox, "Combobox Item 2"
-    UI.comboboxAppend cbox, "Combobox Item 3"
-    UI.boxAppend inner, uiControl(cbox), 0
+    cbox = UI.new_combobox
+    UI.combobox_append cbox, "Combobox Item 1"
+    UI.combobox_append cbox, "Combobox Item 2"
+    UI.combobox_append cbox, "Combobox Item 3"
+    UI.box_append inner, ui_control(cbox), 0
 
-    ecbox = UI.newEditableCombobox
-    UI.editableComboboxAppend ecbox, "Editable Item 1"
-    UI.editableComboboxAppend ecbox, "Editable Item 2"
-    UI.editableComboboxAppend ecbox, "Editable Item 3"
-    UI.boxAppend inner, uiControl(ecbox), 0
+    ecbox = UI.new_editable_combobox
+    UI.editable_combobox_append ecbox, "Editable Item 1"
+    UI.editable_combobox_append ecbox, "Editable Item 2"
+    UI.editable_combobox_append ecbox, "Editable Item 3"
+    UI.box_append inner, ui_control(ecbox), 0
 
-    rb = UI.newRadioButtons
-    UI.radioButtonsAppend rb, "Radio Button 1"
-    UI.radioButtonsAppend rb, "Radio Button 2"
-    UI.radioButtonsAppend rb, "Radio Button 3"
-    UI.boxAppend inner, uiControl(rb), 1
+    rb = UI.new_radio_buttons
+    UI.radio_buttons_append rb, "Radio Button 1"
+    UI.radio_buttons_append rb, "Radio Button 2"
+    UI.radio_buttons_append rb, "Radio Button 3"
+    UI.box_append inner, ui_control(rb), 1
 
-    tab = UI.newTab
-    UI.tabAppend tab, "Page 1", uiControl(UI.newHorizontalBox)
-    UI.tabAppend tab, "Page 2", uiControl(UI.newHorizontalBox)
-    UI.tabAppend tab, "Page 3", uiControl(UI.newHorizontalBox)
-    UI.boxAppend inner2, uiControl(tab), 1
+    tab = UI.new_tab
+    UI.tab_append tab, "Page 1", ui_control(UI.new_horizontal_box)
+    UI.tab_append tab, "Page 2", ui_control(UI.new_horizontal_box)
+    UI.tab_append tab, "Page 3", ui_control(UI.new_horizontal_box)
+    UI.box_append inner2, ui_control(tab), 1
 
     # -
 
-    UI.controlShow uiControl(mainwin)
+    UI.control_show ui_control(mainwin)
 
     UI.main
     UI.uninit
