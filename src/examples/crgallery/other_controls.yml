@@ -1,0 +1,10 @@
+components:
+- vertical_box:
+  padded: 1
+  children:
+  - group: Numbers
+    margined: 1
+  - vertical_box:
+    padded: 1
+    children:
+    - slider: 0, 100

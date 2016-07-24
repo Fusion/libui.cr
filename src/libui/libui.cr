@@ -330,24 +330,3 @@ end
 macro ui_nil?(ptr)
   {{ptr}}.null?
 end
-
-module CUI
-  def init: Boolean
-    o = UI::InitOptions.new
-    err = UI.init pointerof(o)
-    if !uiNil?(err)
-      return false
-    end
-    true
-  end
-
-  class Menu
-    def init(text : String)
-      @menu = UI.newMenu text
-    end
-
-    def append(name : String)
-      UI.menuAppendItem @menu, name
-    end
-  end
-end

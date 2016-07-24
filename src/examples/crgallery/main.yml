@@ -1,0 +1,39 @@
+menubar:
+- menu: File
+  items:
+  - item: Open
+    name: open
+  - item: Save
+    name: save
+  - item: Quit
+    type: quit
+- menu: Edit
+  items:
+  - item: Checkable Item
+    name: checkable_item
+    type: check
+  - item: "-"
+    type: separator
+  - item: Disabled Item
+    name: disabled_item
+    enabled: false
+  - item: Preferences
+    type: preferences
+- menu: Help
+  items:
+  - item: Help
+    name: help
+  - item: About
+    type: about
+
+windows:
+- window: libui control gallery
+  name: libui_control_gallery
+  margin: 1
+  children:
+  - vertical_box:
+    padded: 1
+    children:
+    - horizontal_box:
+      name: contains_children
+      padded: 1

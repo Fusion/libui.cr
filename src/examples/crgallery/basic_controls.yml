@@ -1,0 +1,15 @@
+components:
+- group: Basic Controls
+  margined: 1
+  children:
+  - vertical_box:
+    padded: 1
+    children:
+    - button: Button
+    - checkbox: Checkbox
+    - entry: Entry
+    - label: Label
+    - horizontal_separator:
+    - date_picker:
+    - font_button:
+    - color_button:
