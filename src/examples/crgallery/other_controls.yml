@@ -2,9 +2,39 @@ components:
 - vertical_box:
   padded: 1
   children:
+
   - group: Numbers
     margined: 1
-  - vertical_box:
-    padded: 1
     children:
-    - slider: 0, 100
+    - vertical_box:
+      padded: 1
+      children:
+      - spinbox: 0, 100
+        name: spinbox
+      - slider: 0, 100
+        name: slider
+      - progress_bar:
+        name: progress_bar
+
+  - group: Lists
+    margined: 1
+    children:
+    - vertical_box:
+      padded: 1
+      children:
+      - combobox:
+        items:
+        - item: Combobox Item 1
+        - item: Combobox Item 2
+        - item: Combobox Item 3
+      - combobox:
+        editable: true
+        items:
+        - item: Editable Item 1
+        - item: Editable Item 2
+        - item: Editable Item 3
+      - radio_buttons:
+        items:
+        - item: Radio Button 1
+        - item: Radio Button 2
+        - item: Radio Button 3

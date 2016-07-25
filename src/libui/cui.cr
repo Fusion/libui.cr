@@ -67,6 +67,11 @@ module CUI extend self
   # Create and add components: windows, dialogs, etc.
   # ----------------------------------------------------------------------------
 
+  private def rewrite_type_this_is_a_hack!(type, attributes)
+    return "editable_combobox" if type == "combobox" && attributes.has_key?("editable") && attributes["editable"] == "true"
+    type
+  end
+
   # Window logic is as follow:
   # First window met becomes main -- later on we may override using 'main' or what not
   private def spawn_component(type, name, text, attributes) : UIComponent
@@ -122,9 +127,29 @@ module CUI extend self
     when "date_time_picker"
       raw_component = UI.new_date_time_picker
       component = ui_control raw_component
+    when "spinbox"
+      st, en = text.to_s.split(",").map{ |v| v.strip.to_i }
+      raw_component = UI.new_spinbox st, en
+      component = ui_control raw_component
     when "slider"
       st, en = text.to_s.split(",").map{ |v| v.strip.to_i }
       raw_component = UI.new_slider st, en
+      component = ui_control raw_component
+    when "progress_bar"
+      raw_component = UI.new_progress_bar
+      component = ui_control raw_component
+    when "editable_combobox"
+      raw_component = UI.new_editable_combobox
+      component = ui_control raw_component
+    when "combobox"
+      raw_component = UI.new_combobox
+      component = ui_control raw_component
+    when "radio_buttons"
+      raw_component = UI.new_radio_buttons
+      component = ui_control raw_component
+    when "tabs"
+      raw_component = UI.new_tab
+      component = ui_control raw_component
     end
 
     idx_component name.to_s, component if !name.nil? && !component.is_a?(Nil)
@@ -132,7 +157,7 @@ module CUI extend self
     component
   end
 
-  private def add_child(type, parent : UI::Control*, child)
+  private def add_child(type, parent : UI::Control*, attributes, child)
     case type
     when "window"
       UI.window_set_child parent as UI::Window*, child
@@ -141,6 +166,21 @@ module CUI extend self
       UI.box_append parent as UI::Box*, child, 0
     when "group"
       UI.group_set_child parent as UI::Group*, child
+    else
+      puts "## Warning: unknown child type ###"
+    end
+  end
+
+  private def add_item(type, parent : UI::Control*, attributes, item)
+    case type
+    when "combobox"
+      UI.combobox_append parent as UI::Combobox*, item
+    when "editable_combobox"
+      UI.editable_combobox_append parent as UI::EditableCombobox*, item
+    when "radio_buttons"
+      UI.radio_buttons_append parent as UI::RadioButtons*, item
+    else
+      puts "## Warning: unknown item type ###"
     end
   end
 
@@ -150,12 +190,18 @@ module CUI extend self
     component_name = nil
     attributes = {} of String => String
     children = nil
+    items = nil
     ydesc.each do |desc, data|
       #puts desc
       #puts data
       case desc
       when "children"
         children = inflate_components data
+      when "items"
+        items = [] of String
+        data.each do |item|
+          items << item["item"].to_s
+        end
       when "name"
         component_name = data
       else
@@ -167,13 +213,24 @@ module CUI extend self
         end
       end
     end
+
+    # HUGE WART! Otherwise we would end up with:
+    # can't cast (Pointer(UI::Combobox) | Pointer(UI::EditableCombobox)) to Pointer(UI::Control)
+    # (macro in libui.cr)
+    component_type = rewrite_type_this_is_a_hack! component_type, attributes
+
     # So now we should now what we need to know about our component_text
     # TODO check legit
     component = spawn_component component_type, component_name, component_text, attributes
     unless component.is_a?(Nil)
       unless children.nil?
         children.each do |child|
-          add_child component_type, component, child
+          add_child component_type, component, attributes, child
+        end
+      end
+      unless items.nil?
+        items.each do |item|
+          add_item component_type, component, attributes, item
         end
       end
     end

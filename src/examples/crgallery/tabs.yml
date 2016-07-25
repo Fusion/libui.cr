@@ -1,0 +1,7 @@
+components:
+- horizontal_box:
+  name: tab1
+- horizontal_box:
+  name: tab2
+- horizontal_box:
+  name: tab3
