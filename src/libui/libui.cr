@@ -327,6 +327,10 @@ macro ui_control(control)
   {{control}} as UI::Control*
 end
 
+macro ui_box(control)
+  {{control}} as UI::Box*
+end
+
 macro ui_nil?(ptr)
   {{ptr}}.null?
 end

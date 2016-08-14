@@ -7,6 +7,13 @@ module CUI extend self
   class Exception < Exception
   end
 
+  class ComponentWrapper
+    getter component, attributes
+
+    def initialize(@component : UI::Control*, @attributes : Hash(String, String))
+    end
+  end
+
   enum MenuDesc
     Enabled     = 2<<0
     Check       = 2<<1
@@ -81,7 +88,10 @@ module CUI extend self
       attributes["width"] ||= "640"
       attributes["height"] ||= "480"
       attributes["hasMenubar"] ||= "0"
-      component = ui_control UI.new_window text.to_s, attributes["width"].to_i, attributes["height"].to_i, attributes["hasMenubar"].to_i
+      attributes["margin"] ||= "0"
+      raw_component = UI.new_window text.to_s, attributes["width"].to_i, attributes["height"].to_i, attributes["hasMenubar"].to_i
+      UI.window_set_margined raw_component, 1 if attributes["margin"].to_i == 1
+      component = ui_control raw_component
 
       idx_component "sys::mainwindow", component if !get "sys::mainwindow"
 
@@ -157,13 +167,15 @@ module CUI extend self
     component
   end
 
-  private def add_child(type, parent : UI::Control*, attributes, child)
+  private def add_child(type, parent : UI::Control*, attributes, child, child_attributes)
+    stretched = child_attributes.has_key?("stretched") ? child_attributes["stretched"].to_i : 0
+    
     case type
     when "window"
       UI.window_set_child parent as UI::Window*, child
     when "vertical_box", "horizontal_box"
       # TODO stretchy instead of 0
-      UI.box_append parent as UI::Box*, child, 0
+      UI.box_append parent as UI::Box*, child, stretched
     when "group"
       UI.group_set_child parent as UI::Group*, child
     else
@@ -184,7 +196,7 @@ module CUI extend self
     end
   end
 
-  private def inflate_component(ydesc : YAML::Any) : UIComponent
+  private def inflate_component(ydesc : YAML::Any) : ComponentWrapper | Nil
     component_type = nil
     component_text = nil
     component_name = nil
@@ -219,13 +231,13 @@ module CUI extend self
     # (macro in libui.cr)
     component_type = rewrite_type_this_is_a_hack! component_type, attributes
 
-    # So now we should now what we need to know about our component_text
+    # So now we should know what we need to know about our component_text
     # TODO check legit
     component = spawn_component component_type, component_name, component_text, attributes
     unless component.is_a?(Nil)
       unless children.nil?
         children.each do |child|
-          add_child component_type, component, attributes, child
+          add_child component_type, component, attributes, child.component, child.attributes
         end
       end
       unless items.nil?
@@ -234,34 +246,34 @@ module CUI extend self
         end
       end
     end
-    component
+    return nil if component.is_a?(Nil)
+    ComponentWrapper.new component, attributes
     #puts "Component type=#{component_type} name=#{component_name} text=#{component_text}"
-    #puts attributes
   end
 
-  private def inflate_components(ydesc : YAML::Any)
-    components = [] of UI::Control*
+  private def inflate_components(ydesc : YAML::Any) : Array(ComponentWrapper)
+    component_wrappers = [] of ComponentWrapper
     ydesc.each do |desc|
-      component = inflate_component desc
-      components << component unless component.is_a?(Nil)
+      component_wrapper = inflate_component desc
+      component_wrappers << component_wrapper unless component_wrapper.is_a?(Nil)
     end
-    components
+    component_wrappers
   end
 
   # Public API
 
   def inflate(file_name : String)
-    components = [] of UI::Control*
+    component_wrappers = [] of ComponentWrapper
     ydesc = YAML.parse File.read file_name
     ydesc.each do |desc, data|
       case desc
       when "windows"
-        components = inflate_components data
+        component_wrappers = inflate_components data
       when "components"
-        components = inflate_components data
+        component_wrappers = inflate_components data
       end
     end
-    components
+    component_wrappers
   end
 
   # ----------------------------------------------------------------------------

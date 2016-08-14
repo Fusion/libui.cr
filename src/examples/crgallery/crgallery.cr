@@ -28,7 +28,7 @@ class CRGallery
     # ----------------------------------------------------------------------------
     basic_controls = CUI.inflate "src/examples/crgallery/basic_controls.yml"
     basic_controls.each do |basic_control|
-      UI.box_append container, basic_control, 0
+      UI.box_append container, basic_control.component, 1
     end
 
     # ----------------------------------------------------------------------------
@@ -37,7 +37,7 @@ class CRGallery
     # ----------------------------------------------------------------------------
     other_controls = CUI.inflate "src/examples/crgallery/other_controls.yml"
     other_controls.each do |other_control|
-      UI.box_append container, other_control, 0
+      UI.box_append container, other_control.component, 1
     end
 
     # ----------------------------------------------------------------------------
@@ -48,13 +48,13 @@ class CRGallery
     UI.tab_append tabs, "Page 1", CUI.get! "tab1"
     UI.tab_append tabs, "Page 2", CUI.get! "tab2"
     UI.tab_append tabs, "Page 3", CUI.get! "tab3"
-    UI.box_append container, ui_control(tabs), 0
+    UI.box_append ui_box(CUI.get! "vertical_children"), ui_control(tabs), 1
 
     # ----------------------------------------------------------------------------
     # Attach to display now. Avoid flicker.
     # ----------------------------------------------------------------------------
     top_components.each do |component|
-      UI.control_show ui_control component
+      UI.control_show ui_control component.component
     end
 
     # ----------------------------------------------------------------------------

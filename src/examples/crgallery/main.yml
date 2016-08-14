@@ -37,3 +37,4 @@ windows:
     - horizontal_box:
       name: contains_children
       padded: 1
+      stretched: 1
