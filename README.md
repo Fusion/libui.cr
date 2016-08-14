@@ -8,6 +8,12 @@ Crystal-lang bindings for [libui](https://github.com/andlabs/libui), a GUI libra
 
 ## What's New
 
+08/13/16
+- Sync'd to upstream #6e45859
+- Control Gallery not updated, but yml examples were
+- Proper component stretching and margins
+- Waiting for tables definition to materialize
+
 07/24/16
 - Now with YAML builder
 
@@ -35,10 +41,10 @@ Have a look at src/examples/controlgallery, which is a direct port of a C exampl
 (see src/examples/crgallery)
 
 This is a feature I am introducing in addition to the library bindings.
-It allows devs to specify a UI without hard coding it and maintain it using 
+It allows devs to specify a UI without hard coding it and maintain it using
 fragments described in simple .yml files.
 
-Some davantages:
+Some advantages:
 - No need to recompile your code to test a UI change
 - Team collaboration now easier
 - Descriptive UI
@@ -63,15 +69,20 @@ The '!' forms will throw an exception if component is not found.
 
 ## Development
 
-Recent versions of Crystal now require you to include the current path explicitely to find libraries:
+Recent versions of Crystal now require you to include the current path explicitly to find libraries:
 
     crystal build --link-flags "-L$(PWD)" src/examples/controlgallery/main.cr
+    crystal build --link-flags "-L$(PWD)" src/examples/crgallery/crgallery.cr
 
-At least on OS X, if you omit this flag, libui.A.dylib will not be found.
+If you omit this flag, libui.A.dylib or libui.so (system-specific) will not be found.
 
-To run the generated binary:
+Note: in this example, I used the current directory but it could be `-L/usr/local/includes` or any
+ other location depending on your setup.
+
+To run the generated binaries:
 
     LD_LIBRARY_PATH=. ./main
+    LD_LIBRARY_PATH=. ./crgallery
 
 ## Contributing
 
