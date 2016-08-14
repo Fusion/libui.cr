@@ -94,7 +94,7 @@ module CUI extend self
       UI.box_set_padded raw_component, attributes["padded"].to_i if attributes.has_key?("padded")
       component = ui_control raw_component
     when "horizontal_separator"
-      ui_control UI.new_horizontal_separator
+      component = ui_control UI.new_horizontal_separator
     when "group"
       raw_component = UI.new_group text.to_s
       UI.group_set_margined raw_component, attributes["margined"].to_i if attributes.has_key?("margined")

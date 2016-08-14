@@ -11,5 +11,7 @@ components:
     - label: Label
     - horizontal_separator:
     - date_picker:
+    - time_picker:
+    - date_time_picker:
     - font_button:
     - color_button:
