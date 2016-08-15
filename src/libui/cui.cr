@@ -14,6 +14,7 @@ module CUI extend self
     end
   end
 
+  # Disabled was added as syntactic sugar for when using objects
   enum MenuDesc
     Enabled     = 2<<0
     Check       = 2<<1
@@ -21,6 +22,7 @@ module CUI extend self
     Preferences = 2<<3
     About       = 2<<4
     Separator   = 2<<5
+    Disabled    = 2<<6
   end
 
   def init: Boolean
@@ -169,7 +171,7 @@ module CUI extend self
 
   private def add_child(type, parent : UI::Control*, attributes, child, child_attributes)
     stretched = child_attributes.has_key?("stretched") ? child_attributes["stretched"].to_i : 0
-    
+
     case type
     when "window"
       UI.window_set_child parent as UI::Window*, child
@@ -379,13 +381,79 @@ module CUI extend self
   # Playground: Currently Unused.
   # ----------------------------------------------------------------------------
 
+  # If main window was created manually, then attach it here
+  # so that objects we create know where to find it.
+  def attach_main_window(component)
+    idx_component "sys::mainwindow", ui_control component
+  end
+
   class Menu
-    def init(text : String)
-      @menu = UI.newMenu text
+    def initialize(text : String)
+      @menu = UI.new_menu text
     end
 
-    def append(name : String)
-      UI.menuAppendItem @menu, name
+    # Keep in mind that our proc's final argument is its return value as determined by the compiler
+    def append(text : String, cb : Proc(UI::MenuItem*, UI::Window*, Void*, Object|Nil) | Nil = nil, data : Void*|Nil = nil, flags = MenuDesc::Enabled.value)
+      # Confusing syntactic sugar...
+      if (!flags.nil? && flags & MenuDesc::Disabled.value != 0)
+        flags &= ~MenuDesc::Enabled.value
+      else
+        flags |= MenuDesc::Enabled.value
+      end
+      #
+      if (!flags.nil? && flags & MenuDesc::Quit.value != 0)
+        item = UI.menu_append_quit_item @menu
+      elsif (!flags.nil? && flags & MenuDesc::Check.value != 0)
+        item = UI.menu_append_check_item @menu, text
+      elsif (!flags.nil? && flags & MenuDesc::Preferences.value != 0)
+        item = UI.menu_append_preferences_item @menu
+      elsif (!flags.nil? && flags & MenuDesc::About.value != 0)
+        item = UI.menu_append_about_item @menu
+      else
+        item = UI.menu_append_item @menu, text
+      end
+      if (!flags.nil? && flags & MenuDesc::Enabled.value == 0)
+        UI.menu_item_disable item
+      end
+      unless cb.nil?
+        UI.menu_item_on_clicked item, cb, data
+      end
+      item
+    end
+  end
+
+  class OpenFile
+    getter filename
+
+    def initialize
+      @filename = UI.open_file CUI.get_mainwindow!
+      # TODO: Currently we are not UI_free-ing this object.
+      # We will need to figure out how to invoke this when the Crystal Team
+      # settles on a GC model.
+    end
+  end
+
+  class SaveFile
+    getter filename
+
+    def initialize
+      @filename = UI.save_file CUI.get_mainwindow!
+    end
+  end
+
+  enum MsgBoxType
+    Plain
+    Error
+  end
+
+  class MsgBox
+    def initialize(title, text, msgboxtype = MsgBoxType::Plain)
+      case msgboxtype
+      when MsgBoxType::Plain
+        UI.msg_box CUI.get_mainwindow!, title, text
+      when MsgBoxType::Error
+        UI.msg_box_error CUI.get_mainwindow!, title, text
+      end
     end
   end
 end
