@@ -324,11 +324,11 @@ end
 # Some Sugar
 
 macro ui_control(control)
-  {{control}} as UI::Control*
+  {{control}}.as UI::Control*
 end
 
 macro ui_box(control)
-  {{control}} as UI::Box*
+  {{control}}.as UI::Box*
 end
 
 macro ui_nil?(ptr)

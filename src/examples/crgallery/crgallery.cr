@@ -21,7 +21,7 @@ class CRGallery
     # appropriate component (retrieved using its name)
     # ----------------------------------------------------------------------------
     top_components = CUI.inflate "src/examples/crgallery/main.yml"
-    container = CUI.get!("contains_children") as UI::Box*
+    container = CUI.get!("contains_children").as UI::Box*
 
     # ----------------------------------------------------------------------------
     # This file describes basic controls. No fancy bindings here.
@@ -106,20 +106,20 @@ class CRGallery
       nil
 
     UI.spinbox_on_changed \
-      CUI.get!("spinbox") as UI::Spinbox*,
+      CUI.get!("spinbox").as UI::Spinbox*,
       ->(s: UI::Spinbox*, data: Void*) {
-        value = UI.spinbox_value CUI.get!("spinbox") as UI::Spinbox*
-        UI.slider_set_value CUI.get!("slider") as UI::Slider*, value
-        UI.progress_bar_set_value CUI.get!("progress_bar") as UI::ProgressBar*, value
+        value = UI.spinbox_value CUI.get!("spinbox").as UI::Spinbox*
+        UI.slider_set_value CUI.get!("slider").as UI::Slider*, value
+        UI.progress_bar_set_value CUI.get!("progress_bar").as UI::ProgressBar*, value
       },
       nil
 
     UI.slider_on_changed \
-      CUI.get!("slider") as UI::Slider*,
+      CUI.get!("slider").as UI::Slider*,
       ->(s: UI::Slider*, data: Void*) {
-        value = UI.slider_value CUI.get!("slider") as UI::Slider*
-        UI.spinbox_set_value CUI.get!("spinbox") as UI::Spinbox*, value
-        UI.progress_bar_set_value CUI.get!("progress_bar") as UI::ProgressBar*, value
+        value = UI.slider_value CUI.get!("slider").as UI::Slider*
+        UI.spinbox_set_value CUI.get!("spinbox").as UI::Spinbox*, value
+        UI.progress_bar_set_value CUI.get!("progress_bar").as UI::ProgressBar*, value
       },
       nil
 

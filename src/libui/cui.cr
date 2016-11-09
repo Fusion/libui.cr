@@ -55,21 +55,21 @@ module CUI extend self
   def get_as_menuitem(name : String) : UI::MenuItem* | Nil
     m = get name
     return nil if m.is_a?(Nil)
-    m as UI::MenuItem*
+    m.as UI::MenuItem*
   end
 
   def get_as_menuitem!(name : String) : UI::MenuItem*
-    (get! name) as UI::MenuItem*
+    (get! name).as UI::MenuItem*
   end
 
   def get_mainwindow : UI::Window* | Nil
     m = get "sys::mainwindow"
     return nil if m.is_a?(Nil)
-    m as UI::Window*
+    m.as UI::Window*
   end
 
   def get_mainwindow! : UI::Window*
-    (get! "sys::mainwindow") as UI::Window*
+    (get! "sys::mainwindow").as UI::Window*
   end
 
   # ----------------------------------------------------------------------------
@@ -174,12 +174,13 @@ module CUI extend self
 
     case type
     when "window"
-      UI.window_set_child parent as UI::Window*, child
+      UI.window_set_child parent.as UI::Window*, child
     when "vertical_box", "horizontal_box"
       # TODO stretchy instead of 0
-      UI.box_append parent as UI::Box*, child, stretched
+      UI.box_append parent.as UI::Box*, child, stretched
     when "group"
-      UI.group_set_child parent as UI::Group*, child
+      # UI.group_set_child parent as UI::Group*, child
+      UI.group_set_child(parent.as UI::Group*, child)
     else
       puts "## Warning: unknown child type ###"
     end
@@ -188,11 +189,11 @@ module CUI extend self
   private def add_item(type, parent : UI::Control*, attributes, item)
     case type
     when "combobox"
-      UI.combobox_append parent as UI::Combobox*, item
+      UI.combobox_append(parent.as UI::Combobox*, item)
     when "editable_combobox"
-      UI.editable_combobox_append parent as UI::EditableCombobox*, item
+      UI.editable_combobox_append(parent.as UI::EditableCombobox*, item)
     when "radio_buttons"
-      UI.radio_buttons_append parent as UI::RadioButtons*, item
+      UI.radio_buttons_append(parent.as UI::RadioButtons*, item)
     else
       puts "## Warning: unknown item type ###"
     end
@@ -335,9 +336,9 @@ module CUI extend self
     unless menu.is_a?(Nil)
       unless children.nil?
         children.each do |child|
-          name = child[0] as String
-          text = child[1] as String
-          desc = child[2] as Int32
+          name = child[0].as String
+          text = child[1].as String
+          desc = child[2].as Int32
           if (desc & MenuDesc::Check.value != 0)
             item = UI.menu_append_check_item menu, text
           elsif (desc & MenuDesc::Quit.value != 0)

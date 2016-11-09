@@ -7,7 +7,8 @@ Crystal-lang bindings for [libui](https://github.com/andlabs/libui), a GUI libra
 ![OS X](https://raw.githubusercontent.com/andlabs/libui/master/examples/controlgallery/darwin.png)
 
 ## What's New
-
+11/09/16
+- patch for crystal version 0.19.4 (fixes for syntax 'as')
 08/13/16
 - Sync'd to upstream #6e45859
 - Control Gallery not updated, but yml examples were
