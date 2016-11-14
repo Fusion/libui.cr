@@ -1,9 +1,10 @@
-
 require "yaml"
 
 alias UIComponent = UI::Control* | Nil
 
-module CUI extend self
+module CUI
+  extend self
+
   class Exception < Exception
   end
 
@@ -16,16 +17,16 @@ module CUI extend self
 
   # Disabled was added as syntactic sugar for when using objects
   enum MenuDesc
-    Enabled     = 2<<0
-    Check       = 2<<1
-    Quit        = 2<<2
-    Preferences = 2<<3
-    About       = 2<<4
-    Separator   = 2<<5
-    Disabled    = 2<<6
+    Enabled     = 2 << 0
+    Check       = 2 << 1
+    Quit        = 2 << 2
+    Preferences = 2 << 3
+    About       = 2 << 4
+    Separator   = 2 << 5
+    Disabled    = 2 << 6
   end
 
-  def init: Boolean
+  def init : Boolean
     o = UI::InitOptions.new
     err = UI.init pointerof(o)
     if !uiNil?(err)
@@ -55,21 +56,21 @@ module CUI extend self
   def get_as_menuitem(name : String) : UI::MenuItem* | Nil
     m = get name
     return nil if m.is_a?(Nil)
-    m as UI::MenuItem*
+    m.as UI::MenuItem*
   end
 
   def get_as_menuitem!(name : String) : UI::MenuItem*
-    (get! name) as UI::MenuItem*
+    (get! name).as UI::MenuItem*
   end
 
   def get_mainwindow : UI::Window* | Nil
     m = get "sys::mainwindow"
     return nil if m.is_a?(Nil)
-    m as UI::Window*
+    m.as UI::Window*
   end
 
   def get_mainwindow! : UI::Window*
-    (get! "sys::mainwindow") as UI::Window*
+    (get! "sys::mainwindow").as UI::Window*
   end
 
   # ----------------------------------------------------------------------------
@@ -96,7 +97,6 @@ module CUI extend self
       component = ui_control raw_component
 
       idx_component "sys::mainwindow", component if !get "sys::mainwindow"
-
     when "vertical_box"
       raw_component = UI.new_vertical_box
       UI.box_set_padded raw_component, attributes["padded"].to_i if attributes.has_key?("padded")
@@ -140,11 +140,11 @@ module CUI extend self
       raw_component = UI.new_date_time_picker
       component = ui_control raw_component
     when "spinbox"
-      st, en = text.to_s.split(",").map{ |v| v.strip.to_i }
+      st, en = text.to_s.split(",").map { |v| v.strip.to_i }
       raw_component = UI.new_spinbox st, en
       component = ui_control raw_component
     when "slider"
-      st, en = text.to_s.split(",").map{ |v| v.strip.to_i }
+      st, en = text.to_s.split(",").map { |v| v.strip.to_i }
       raw_component = UI.new_slider st, en
       component = ui_control raw_component
     when "progress_bar"
@@ -174,12 +174,12 @@ module CUI extend self
 
     case type
     when "window"
-      UI.window_set_child parent as UI::Window*, child
+      UI.window_set_child parent.as(UI::Window*), child
     when "vertical_box", "horizontal_box"
       # TODO stretchy instead of 0
-      UI.box_append parent as UI::Box*, child, stretched
+      UI.box_append parent.as(UI::Box*), child, stretched
     when "group"
-      UI.group_set_child parent as UI::Group*, child
+      UI.group_set_child parent.as(UI::Group*), child
     else
       puts "## Warning: unknown child type ###"
     end
@@ -188,11 +188,11 @@ module CUI extend self
   private def add_item(type, parent : UI::Control*, attributes, item)
     case type
     when "combobox"
-      UI.combobox_append parent as UI::Combobox*, item
+      UI.combobox_append parent.as(UI::Combobox*), item
     when "editable_combobox"
-      UI.editable_combobox_append parent as UI::EditableCombobox*, item
+      UI.editable_combobox_append parent.as(UI::EditableCombobox*), item
     when "radio_buttons"
-      UI.radio_buttons_append parent as UI::RadioButtons*, item
+      UI.radio_buttons_append parent.as(UI::RadioButtons*), item
     else
       puts "## Warning: unknown item type ###"
     end
@@ -206,8 +206,8 @@ module CUI extend self
     children = nil
     items = nil
     ydesc.each do |desc, data|
-      #puts desc
-      #puts data
+      # puts desc
+      # puts data
       case desc
       when "children"
         children = inflate_components data
@@ -250,7 +250,7 @@ module CUI extend self
     end
     return nil if component.is_a?(Nil)
     ComponentWrapper.new component, attributes
-    #puts "Component type=#{component_type} name=#{component_name} text=#{component_text}"
+    # puts "Component type=#{component_type} name=#{component_name} text=#{component_text}"
   end
 
   private def inflate_components(ydesc : YAML::Any) : Array(ComponentWrapper)
@@ -335,9 +335,9 @@ module CUI extend self
     unless menu.is_a?(Nil)
       unless children.nil?
         children.each do |child|
-          name = child[0] as String
-          text = child[1] as String
-          desc = child[2] as Int32
+          name = child[0].as String
+          text = child[1].as String
+          desc = child[2].as Int32
           if (desc & MenuDesc::Check.value != 0)
             item = UI.menu_append_check_item menu, text
           elsif (desc & MenuDesc::Quit.value != 0)
@@ -393,7 +393,7 @@ module CUI extend self
     end
 
     # Keep in mind that our proc's final argument is its return value as determined by the compiler
-    def append(text : String, cb : Proc(UI::MenuItem*, UI::Window*, Void*, Object|Nil) | Nil = nil, data : Void*|Nil = nil, flags = MenuDesc::Enabled.value)
+    def append(text : String, cb : Proc(UI::MenuItem*, UI::Window*, Void*, Object | Nil) | Nil = nil, data : Void* | Nil = nil, flags = MenuDesc::Enabled.value)
       # Confusing syntactic sugar...
       if (!flags.nil? && flags & MenuDesc::Disabled.value != 0)
         flags &= ~MenuDesc::Enabled.value
