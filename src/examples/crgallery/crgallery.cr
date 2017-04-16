@@ -21,7 +21,7 @@ class CRGallery
     # appropriate component (retrieved using its name)
     # ----------------------------------------------------------------------------
     top_components = CUI.inflate "src/examples/crgallery/main.yml"
-    container = CUI.get!("contains_children") as UI::Box*
+    container = CUI.get!("contains_children").as(UI::Box*)
 
     # ----------------------------------------------------------------------------
     # This file describes basic controls. No fancy bindings here.
@@ -61,9 +61,8 @@ class CRGallery
     # All bindings
     # ----------------------------------------------------------------------------
 
-    UI.menu_item_on_clicked \
-      CUI.get_as_menuitem("open"),
-      ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    UI.menu_item_on_clicked CUI.get_as_menuitem("open"),
+      ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
         mainwin = CUI.get_mainwindow!
         filename = UI.open_file mainwin
         if ui_nil?(filename)
@@ -75,9 +74,8 @@ class CRGallery
       },
       nil
 
-    UI.menu_item_on_clicked \
-      CUI.get_as_menuitem("save"),
-      ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    UI.menu_item_on_clicked CUI.get_as_menuitem("save"),
+      ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
         mainwin = CUI.get_mainwindow!
         filename = UI.save_file mainwin
         if ui_nil?(filename)
@@ -89,37 +87,33 @@ class CRGallery
       },
       nil
 
-    UI.on_should_quit \
-      ->(data: Void*) {
-        UI.control_destroy ui_control CUI.get_mainwindow!
-        1
-      },
+    UI.on_should_quit ->(data : Void*) {
+      UI.control_destroy ui_control CUI.get_mainwindow!
+      1
+    },
       nil
 
-    UI.window_on_closing \
-      CUI.get_mainwindow!,
-      ->(w: UI::Window*, data: Void*) {
+    UI.window_on_closing CUI.get_mainwindow!,
+      ->(w : UI::Window*, data : Void*) {
         UI.control_destroy ui_control CUI.get_mainwindow!
         UI.quit
         0
       },
       nil
 
-    UI.spinbox_on_changed \
-      CUI.get!("spinbox") as UI::Spinbox*,
-      ->(s: UI::Spinbox*, data: Void*) {
-        value = UI.spinbox_value CUI.get!("spinbox") as UI::Spinbox*
-        UI.slider_set_value CUI.get!("slider") as UI::Slider*, value
-        UI.progress_bar_set_value CUI.get!("progress_bar") as UI::ProgressBar*, value
+    UI.spinbox_on_changed CUI.get!("spinbox").as(UI::Spinbox*),
+      ->(s : UI::Spinbox*, data : Void*) {
+        value = UI.spinbox_value CUI.get!("spinbox").as(UI::Spinbox*)
+        UI.slider_set_value CUI.get!("slider").as(UI::Slider*), value
+        UI.progress_bar_set_value CUI.get!("progress_bar").as(UI::ProgressBar*), value
       },
       nil
 
-    UI.slider_on_changed \
-      CUI.get!("slider") as UI::Slider*,
-      ->(s: UI::Slider*, data: Void*) {
-        value = UI.slider_value CUI.get!("slider") as UI::Slider*
-        UI.spinbox_set_value CUI.get!("spinbox") as UI::Spinbox*, value
-        UI.progress_bar_set_value CUI.get!("progress_bar") as UI::ProgressBar*, value
+    UI.slider_on_changed CUI.get!("slider").as(UI::Slider*),
+      ->(s : UI::Slider*, data : Void*) {
+        value = UI.slider_value CUI.get!("slider").as(UI::Slider*)
+        UI.spinbox_set_value CUI.get!("spinbox").as(UI::Spinbox*), value
+        UI.progress_bar_set_value CUI.get!("progress_bar").as(UI::ProgressBar*), value
       },
       nil
 

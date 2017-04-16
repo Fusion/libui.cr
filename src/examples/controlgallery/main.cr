@@ -1,7 +1,6 @@
 require "../../libui/libui.cr"
 
 class ControlGallery
-
   # Note: @@mainwin is a class variable because
   # crystal does not support closures in C callbacks -- yet
 
@@ -13,18 +12,18 @@ class ControlGallery
       exit 1
     end
 
-    on_closing = ->(w: UI::Window*, data: Void*) {
+    on_closing = ->(w : UI::Window*, data : Void*) {
       UI.control_destroy ui_control(@@mainwin.not_nil!)
       UI.quit
       0
     }
 
-    should_quit = ->(data: Void*) {
+    should_quit = ->(data : Void*) {
       UI.control_destroy ui_control(@@mainwin.not_nil!)
       1
     }
 
-    open_clicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    open_clicked = ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
       mainwin = @@mainwin
       filename = UI.open_file mainwin
       if ui_nil?(filename)
@@ -35,7 +34,7 @@ class ControlGallery
       end
     }
 
-    save_clicked = ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    save_clicked = ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
       mainwin = @@mainwin
       filename = UI.save_file mainwin
       if ui_nil?(filename)
@@ -46,13 +45,13 @@ class ControlGallery
       end
     }
 
-    on_spinbox_changed = ->(s: UI::Spinbox*, data: Void*) {
+    on_spinbox_changed = ->(s : UI::Spinbox*, data : Void*) {
       value = UI.spinbox_value @@spinbox
       UI.slider_set_value @@slider, value
       UI.progress_bar_set_value @@progressbar, value
     }
 
-    on_slider_changed = ->(s: UI::Slider*, data: Void*) {
+    on_slider_changed = ->(s : UI::Slider*, data : Void*) {
       value = UI.slider_value @@slider
       UI.spinbox_set_value @@spinbox, value
       UI.progress_bar_set_value @@progressbar, value
