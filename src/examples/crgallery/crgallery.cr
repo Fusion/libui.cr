@@ -14,19 +14,19 @@ class CRGallery
     # Create menubar entries. Note that YAML files can contain menubar and
     # controls and we will pick the right root.
     # ----------------------------------------------------------------------------
-    CUI.menubar "src/examples/crgallery/main.yml"
+    CUI.menubar File.join(__DIR__, "main.yml")
 
     # ----------------------------------------------------------------------------
     # Create main window and content. Children will be added to
     # appropriate component (retrieved using its name)
     # ----------------------------------------------------------------------------
-    top_components = CUI.inflate "src/examples/crgallery/main.yml"
+    top_components = CUI.inflate File.join(__DIR__, "main.yml")
     container = CUI.get!("contains_children").as(UI::Box*)
 
     # ----------------------------------------------------------------------------
     # This file describes basic controls. No fancy bindings here.
     # ----------------------------------------------------------------------------
-    basic_controls = CUI.inflate "src/examples/crgallery/basic_controls.yml"
+    basic_controls = CUI.inflate File.join(__DIR__, "basic_controls.yml")
     basic_controls.each do |basic_control|
       UI.box_append container, basic_control.component, 1
     end
@@ -35,7 +35,7 @@ class CRGallery
     # These will be more advanced controls. Note how we will use late bindings
     # in order to avoid playing with not yet realized components.
     # ----------------------------------------------------------------------------
-    other_controls = CUI.inflate "src/examples/crgallery/other_controls.yml"
+    other_controls = CUI.inflate File.join(__DIR__, "other_controls.yml")
     other_controls.each do |other_control|
       UI.box_append container, other_control.component, 1
     end
@@ -43,7 +43,7 @@ class CRGallery
     # ----------------------------------------------------------------------------
     # Attach a few tabs to this last group
     # ----------------------------------------------------------------------------
-    a_few_tabs = CUI.inflate "src/examples/crgallery/tabs.yml"
+    a_few_tabs = CUI.inflate File.join(__DIR__, "tabs.yml")
     tabs = UI.new_tab
     UI.tab_append tabs, "Page 1", CUI.get! "tab1"
     UI.tab_append tabs, "Page 2", CUI.get! "tab2"

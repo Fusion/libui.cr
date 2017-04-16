@@ -66,7 +66,7 @@ module CUI
   def get_mainwindow : UI::Window* | Nil
     m = get "sys::mainwindow"
     return nil if m.is_a?(Nil)
-    m as UI::Window*
+    m.as UI::Window*
   end
 
   def get_mainwindow! : UI::Window*

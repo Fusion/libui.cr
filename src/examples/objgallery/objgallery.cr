@@ -2,7 +2,6 @@ require "../../libui/libui.cr"
 require "../../libui/cui.cr"
 
 class OBJGallery
-
   # Note: @@mainwin is a class variable because
   # crystal does not support closures in C callbacks -- yet
 
@@ -14,14 +13,13 @@ class OBJGallery
       exit 1
     end
 
-    on_closing = ->(w: UI::Window*, data: Void*) {
+    on_closing = ->(w : UI::Window*, data : Void*) {
       UI.control_destroy ui_control CUI.get_mainwindow!
       UI.quit
       0
     }
-    
     menu = CUI::Menu.new "File"
-    menu.append("Open", ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    menu.append("Open", ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
       filename = CUI::OpenFile.new.filename
       if ui_nil?(filename)
         CUI::MsgBox.new "No file selected", "Don't be alarmed!", CUI::MsgBoxType::Error
@@ -29,7 +27,7 @@ class OBJGallery
         CUI::MsgBox.new "File selected", filename
       end
     }, nil)
-    menu.append("Save", ->(item: UI::MenuItem*, w: UI::Window*, data: Void*) {
+    menu.append("Save", ->(item : UI::MenuItem*, w : UI::Window*, data : Void*) {
       filename = CUI::SaveFile.new.filename
       if ui_nil?(filename)
         CUI::MsgBox.new "No file selected", "Don't be alarmed!", CUI::MsgBoxType::Error

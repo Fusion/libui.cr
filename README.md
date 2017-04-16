@@ -8,6 +8,10 @@ Crystal-lang bindings for [libui](https://github.com/andlabs/libui), a GUI libra
 
 ## What's New
 
+04/15/17
+- Sync'd to upstream #5fa7ba4
+- Updated for Crystal 0.21.1
+
 08/13/16
 - Sync'd to upstream #6e45859
 - Control Gallery not updated, but yml examples were
