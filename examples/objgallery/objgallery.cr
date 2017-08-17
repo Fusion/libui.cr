@@ -1,5 +1,5 @@
-require "../../libui/libui.cr"
-require "../../libui/cui.cr"
+require "../../src/libui/libui.cr"
+require "../../src/libui/cui.cr"
 
 class OBJGallery
   # Note: @@mainwin is a class variable because

@@ -1,4 +1,4 @@
-require "../../libui/libui.cr"
+require "../../src/libui/libui.cr"
 
 class ControlGallery
   # Note: @@mainwin is a class variable because
