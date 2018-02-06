@@ -38,11 +38,11 @@ Add these package to your dependencies in shard.yml:
 
 ### Standard (C-like) usage
 
-Have a look at src/examples/controlgallery, which is a direct port of a C example.
+Have a look at examples/controlgallery, which is a direct port of a C example.
 
 ### Crystal-only YAML builder
 
-(see src/examples/crgallery)
+(see examples/crgallery)
 
 This is a feature I am introducing in addition to the library bindings.
 It allows devs to specify a UI without hard coding it and maintain it using
@@ -75,8 +75,8 @@ The '!' forms will throw an exception if component is not found.
 
 Recent versions of Crystal now require you to include the current path explicitly to find libraries:
 
-    crystal build --link-flags "-L$(PWD)" src/examples/controlgallery/main.cr
-    crystal build --link-flags "-L$(PWD)" src/examples/crgallery/crgallery.cr
+    crystal build --link-flags "-L$(pwd)" examples/controlgallery/main.cr
+    crystal build --link-flags "-L$(pwd)" examples/crgallery/crgallery.cr
 
 If you omit this flag, libui.A.dylib or libui.so (system-specific) will not be found.
 
