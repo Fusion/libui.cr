@@ -1,5 +1,5 @@
-require "../../libui/libui.cr"
-require "../../libui/cui.cr"
+require "../../src/libui/libui.cr"
+require "../../src/libui/cui.cr"
 
 class CRGallery
   def initialize
