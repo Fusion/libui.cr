@@ -95,12 +95,14 @@ lib UI
   # Life Cycle
 
   fun main = uiMain
+  fun main_steps = uiMainSteps() : Void
   fun main_step = uiMainStep(wait : LibC::Int) : LibC::Int
   fun init = uiInit(options : UI::InitOptions*) : Char*
   fun uninit = uiUninit
   fun quit = uiQuit
   fun free_text = uiFreeText(text : UInt8*)
   fun free_init_error = uiFreeInitError(err : UInt8*)
+  fun timer = uiTimer(milliseconds : LibC::Int, f : Void* ->, data : Void*) : Void
 
   # Components
 
