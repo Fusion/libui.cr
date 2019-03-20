@@ -205,7 +205,7 @@ module CUI
     attributes = {} of String => String
     children = nil
     items = nil
-    ydesc.each do |desc, data|
+    ydesc.as_h.each do |desc, data|
       # puts desc
       # puts data
       case desc
@@ -213,7 +213,7 @@ module CUI
         children = inflate_components data
       when "items"
         items = [] of String
-        data.each do |item|
+        data.as_a.each do |item|
           items << item["item"].to_s
         end
       when "name"
@@ -255,7 +255,7 @@ module CUI
 
   private def inflate_components(ydesc : YAML::Any) : Array(ComponentWrapper)
     component_wrappers = [] of ComponentWrapper
-    ydesc.each do |desc|
+    ydesc.as_a.each do |desc|
       component_wrapper = inflate_component desc
       component_wrappers << component_wrapper unless component_wrapper.is_a?(Nil)
     end
@@ -267,7 +267,7 @@ module CUI
   def inflate(file_name : String)
     component_wrappers = [] of ComponentWrapper
     ydesc = YAML.parse File.read file_name
-    ydesc.each do |desc, data|
+    ydesc.as_h.each do |desc, data|
       case desc
       when "windows"
         component_wrappers = inflate_components data
@@ -284,11 +284,11 @@ module CUI
 
   private def inflate_menuitems(ydesc : YAML::Any)
     components = [] of Array(String | Int32 | Nil)
-    ydesc.each do |item|
+    ydesc.as_a.each do |item|
       component_name = nil
       component_desc = MenuDesc::Enabled.value
       component_text = nil
-      item.each do |desc, data|
+      item.as_h.each do |desc, data|
         case desc
         when "name"
           component_name = data.to_s
@@ -324,7 +324,7 @@ module CUI
   private def inflate_menu(ydesc : YAML::Any)
     menu = nil
     children = nil
-    ydesc.each do |desc, data|
+    ydesc.as_h.each do |desc, data|
       case desc
       when "items"
         children = inflate_menuitems data
@@ -360,7 +360,7 @@ module CUI
   end
 
   private def inflate_menubar(ydesc : YAML::Any)
-    ydesc.each do |desc|
+    ydesc.as_a.each do |desc|
       inflate_menu desc
     end
   end
@@ -369,7 +369,7 @@ module CUI
 
   def menubar(file_name : String)
     ydesc = YAML.parse File.read file_name
-    ydesc.each do |desc, data|
+    ydesc.as_h.each do |desc, data|
       case desc
       when "menubar"
         inflate_menubar data
