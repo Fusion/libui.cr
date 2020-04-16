@@ -103,25 +103,24 @@ lib UI
   fun free_text = uiFreeText(text : UInt8*)
   fun free_init_error = uiFreeInitError(err : UInt8*)
   fun timer = uiTimer(milliseconds : LibC::Int, f : Void* ->, data : Void*) : Void
+  fun on_should_quit = uiOnShouldQuit(f : Void* -> LibC::Int, data : Void*)
 
   # Components
 
   fun new_menu = uiNewMenu(name : UInt8*) : UI::Menu*
   fun menu_append_item = uiMenuAppendItem(m : UI::Menu*, name : UInt8*) : UI::MenuItem*
   fun menu_append_check_item = uiMenuAppendCheckItem(m : UI::Menu*, name : UInt8*) : UI::MenuItem*
-  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, data : Void*)
   fun menu_append_quit_item = uiMenuAppendQuitItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_preferences_item = uiMenuAppendPreferencesItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_about_item = uiMenuAppendAboutItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_separator = uiMenuAppendSeparator(m : UI::Menu*)
-  fun on_should_quit = uiOnShouldQuit(f : Void* -> LibC::Int, data : Void*)
-  fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
 
   fun menu_item_enable = uiMenuItemEnable(m : UI::MenuItem*)
   fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
-  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, Void*)
+  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, data : Void*)
   fun menu_item_checked = uiMenuItemChecked(m : UI::MenuItem*) : LibC::Int
   fun menu_item_set_checked = uiMenuItemSetChecked(m : UI::MenuItem*, checked : LibC::Int)
+  fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
 
   fun new_horizontal_separator = uiNewHorizontalSeparator : UI::Separator*
 
@@ -141,6 +140,8 @@ lib UI
   fun window_title = uiWindowTitle(w : UI::Window*) : UInt8*
   fun window_set_title = uiWindowSetTitle(w : UI::Window*, title : UInt8*)
   fun window_on_closing = uiWindowOnClosing(w : UI::Window*, f : UI::Window*, Void* -> LibC::Int, Void*)
+  fun window_borderless = uiWindowBorderless(w : UI::Window*) : LibC::Int
+  fun window_set_borderless = uiWindowSetBorderless(w : UI::Window*, borderless : LibC::Int)
 
   fun new_vertical_box = uiNewVerticalBox : UI::Box*
   fun new_horizontal_box = uiNewHorizontalBox : UI::Box*
