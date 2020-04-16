@@ -127,10 +127,6 @@ lib UI
   fun new_window = uiNewWindow(title : UInt8*, width : LibC::Int, height : LibC::Int, hasMenubar : LibC::Int) : UI::Window*
   fun window_margined = uiWindowMargined(w : UI::Window*) : LibC::Int
   fun window_set_margined = uiWindowSetMargined(w : UI::Window*, margined : LibC::Int)
-  # fun window_position = uiWindowPosition(w : UI::Window*, x : LibC::Int*, y : LibC::Int*)
-  # fun window_set_position = uiWindowSetPosition(w : UI::Window*, x : LibC::Int, y : LibC::Int)
-  # fun window_center = uiWindowCenter(w : UI::Window*)
-  # fun window_on_position_changed = uiWindowOnPositionChanged(w : UI::Window*, f : UI::Window*, Void* ->, Void*)
   fun window_content_size = uiWindowContentSize(w : UI::Window*, width : LibC::Int*, height : LibC::Int*)
   fun window_set_content_size = uiWindowSetContentSize(w : UI::Window*, width : LibC::Int, height : LibC::Int)
   fun window_fullscreen = uiWindowFullscreen(w : UI::Window*) : LibC::Int
@@ -193,7 +189,7 @@ lib UI
   fun entry_read_only = uiEntryReadOnly(e : UI::Entry*) : LibC::Int
   fun entry_set_read_only = uiEntrySetReadOnly(e : UI::Entry*, readonly : LibC::Int)
 
-  fun multiline_entry = uiNewMultilineEntry : UI::MultilineEntry*
+  fun new_multiline_entry = uiNewMultilineEntry : UI::MultilineEntry*
   fun multiline_entry_text = uiMultilineEntryText(e : UI::MultilineEntry*) : UInt8*
   fun multiline_entry_set_text = uiMultilineEntrySetText(e : UI::MultilineEntry*, text : UInt8*)
   fun multiline_entry_append = uiMultilineEntryAppend(e : UI::MultilineEntry*, text : UInt8*)
@@ -208,6 +204,9 @@ lib UI
   fun new_date_time_picker = uiNewDateTimePicker : UI::DateTimePicker*
   fun new_date_picker = uiNewDatePicker : UI::DateTimePicker*
   fun new_time_picker = uiNewTimePicker : UI::DateTimePicker*
+  fun date_time_picker_time = uiDateTimePickerTime(d : UI::DateTimePicker*, tm : LibC::Tm*)
+  fun date_time_picker_set_time = uiDateTimePickerSetTime(d : UI::DateTimePicker*, tm : LibC::Tm*)
+  fun date_time_picker_on_changed = uiDateTimePickerOnChanged(d : UI::DateTimePicker*, f : UI::DateTimePicker*, Void* ->, data : Void*)
 
   fun new_spinbox = uiNewSpinbox(min : Int64, max : Int64) : UI::Spinbox*
   fun spinbox_value = uiSpinboxValue(s : UI::Spinbox*) : Int64
@@ -239,7 +238,7 @@ lib UI
   fun radio_buttons_append = uiRadioButtonsAppend(r : UI::RadioButtons*, text : UInt8*)
   fun radio_buttons_selected = uiRadioButtonsSelected(r : UI::RadioButtons*) : LibC::Int
   fun radio_buttons_set_selected = uiRadioButtonsSetSelected(r : UI::RadioButtons*, n : LibC::Int)
-  fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons, f : UI::RadioButtons*, Void* ->, Void*)
+  fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons*, f : UI::RadioButtons*, Void* ->, Void*)
 
   fun new_font_button = uiNewFontButton : UI::FontButton*
   fun font_button_font = uiFontButtonFont(b : UI::FontButton*) : UI::DrawTextFont*
