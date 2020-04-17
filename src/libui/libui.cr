@@ -69,6 +69,48 @@ lib UI
     WindowResizeEdgeBottomRight
   end
 
+  enum UITextWeight
+    Minimum    =    0
+    Thin       =  100
+    UltraLight =  200
+    Light      =  300
+    Book       =  350
+    Normal     =  400
+    Medium     =  500
+    SemiBold   =  600
+    Bold       =  700
+    UltraBold  =  800
+    Heavy      =  900
+    UltraHeavy =  950
+    Maximum    = 1000
+  end
+
+  enum UITextItalic
+    Normal
+    Oblique
+    Italic
+  end
+
+  enum UITextStretch
+    UltraCondensed
+    ExtraCondensed
+    Condensed
+    SemiCondensed
+    Normal
+    SemiExpanded
+    Expanded
+    ExtraExpanded
+    UltraExpanded
+  end
+
+  struct UIFontDescriptor
+    family : UInt8*
+    size : LibC::Double
+    weight : UITextWeight
+    italic : UITextItalic
+    stretch : UITextStretch
+  end
+
   # TODO This actual structure (and more) although not necessary unless debugging
 
   #  struct uiControl {
@@ -95,7 +137,7 @@ lib UI
   # Life Cycle
 
   fun main = uiMain
-  fun main_steps = uiMainSteps() : Void
+  fun main_steps = uiMainSteps : Void
   fun main_step = uiMainStep(wait : LibC::Int) : LibC::Int
   fun init = uiInit(options : UI::InitOptions*) : Char*
   fun uninit = uiUninit
@@ -241,8 +283,9 @@ lib UI
   fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons*, f : UI::RadioButtons*, Void* ->, Void*)
 
   fun new_font_button = uiNewFontButton : UI::FontButton*
-  fun font_button_font = uiFontButtonFont(b : UI::FontButton*) : UI::DrawTextFont*
+  fun font_button_font = uiFontButtonFont(b : UI::FontButton*, desc : UI::UIFontDescriptor*)
   fun font_button_on_changed = uiFontButtonOnChanged(b : UI::FontButton*, f : UI::FontButton*, Void* ->, Void*)
+  fun free_font_button_font = uiFreeFontButtonFont(desc : UI::UIFontDescriptor*)
 
   fun new_color_button = uiNewColorButton : UI::ColorButton*
   fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
