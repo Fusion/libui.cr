@@ -1,19 +1,7 @@
 @[Link("ui")]
 
 lib UI
-  enum Align
-    AlignFill
-    AlignStart
-    AlignCenter
-    AlignEnd
-  end
-
-  enum At
-    AtLeading
-    AtTop
-    AtTrailing
-    AtBottom
-  end
+  DrawDefaultMiterLimit = 10.0
 
   type Menu = Void*
   type MenuItem = Void*
@@ -41,35 +29,28 @@ lib UI
   type Grid = Void*
   type DrawTextFont = Void*
   type Area = Void*
-  type AreaHandler = Void*
-
-  enum DrawFillMode
-    DrawFillModeWinding
-    DrawFillModeAlternate
-  end
-
   type DrawPath = Void*
   type DrawContext = Void*
-  type DrawBrush = Void*
-  type DrawStrokeParams = Void*
   type DrawFontFamilies = Void*
   type DrawTextFontDescriptor = Void*
   type DrawTextFontMetrics = Void*
   type DrawTextLayout = Void*
-  type DrawMatrix = Void*
+  type TableModel = Void*
+  type TableValue = Void*
+  type AttributedString = Void*
 
   enum WindowResizeEdge
-    WindowResizeEdgeLeft
-    WindowResizeEdgeTop
-    WindowResizeEdgeRight
-    WindowResizeEdgeBottom
-    WindowResizeEdgeTopLeft
-    WindowResizeEdgeTopRight
-    WindowResizeEdgeBottomLeft
-    WindowResizeEdgeBottomRight
+    Left
+    Top
+    Right
+    Bottom
+    TopLeft
+    TopRight
+    BottomLeft
+    BottomRight
   end
 
-  enum UITextWeight
+  enum TextWeight
     Minimum    =    0
     Thin       =  100
     UltraLight =  200
@@ -85,13 +66,27 @@ lib UI
     Maximum    = 1000
   end
 
-  enum UITextItalic
+  enum TextItalic
     Normal
     Oblique
     Italic
   end
 
-  enum UITextStretch
+  enum Underline
+    None
+    Single
+    Double
+    Suggestion
+  end
+
+  enum UnderlineColor
+    Custom
+    Spelling
+    Grammar
+    Auxiliary # For instance, the color used by smart replacements on macOS or in Microsoft Office
+  end
+
+  enum TextStretch
     UltraCondensed
     ExtraCondensed
     Condensed
@@ -103,12 +98,241 @@ lib UI
     UltraExpanded
   end
 
-  struct UIFontDescriptor
+  enum DrawBrushType
+    Solid
+    LinearGradient
+    RadialGradient
+    Image
+  end
+
+  enum DrawFillMode
+    DrawFillModeWinding
+    DrawFillModeAlternate
+  end
+
+  enum DrawLineCap
+    Flat
+    Round
+    Square
+  end
+
+  enum DrawLineJoin
+    Miter
+    Round
+    Bevel
+  end
+
+  enum DrawTextAlign
+    Left
+    Center
+    Right
+  end
+
+  enum AttributeType
+    Family
+    Size
+    Weight
+    Italic
+    Stretch
+    Color
+    Background
+    Underline
+    UnderlineColor
+    Features
+  end
+
+  @[Flags]
+  enum Modifiers
+    Ctrl
+    Alt
+    Shift
+    Super
+  end
+
+  enum ExtKey
+    Escape = 1
+    Insert			# equivalent to "Help" on Apple keyboards
+    Delete
+    Home
+    End
+    PageUp
+    PageDown
+    Up
+    Down
+    Left
+    Right
+    F1			# F1..F12 are guaranteed to be consecutive
+    F2
+    F3
+    F4
+    F5
+    F6
+    F7
+    F8
+    F9
+    F10
+    F11
+    F12
+    N0			# numpad keys; independent of Num Lock state
+    N1			# N0..N9 are guaranteed to be consecutive
+    N2
+    N3
+    N4
+    N5
+    N6
+    N7
+    N8
+    N9
+    NDot
+    NEnter
+    NAdd
+    NSubtract
+    NMultiply
+    NDivide
+  end
+
+  enum Align
+    Fill
+    Start
+    Center
+    End
+  end
+
+  enum At
+    Leading
+    Top
+    Trailing
+    Bottom
+  end
+
+  enum TableValueType
+    String
+    Image
+    Int
+    Color
+  end
+
+  struct AreaHandler
+    draw : AreaHandler*, Area*, AreaDrawParams* -> Void*
+    mouse_event : AreaHandler*, Area*, AreaMouseEvent* -> Void*
+    mouse_crossed : AreaHandler*, Area*, LibC::Int -> Void*
+    drag_broken : AreaHandler*, Area* -> Void*
+    key_event : AreaHandler*, Area*, AreaKeyEvent* -> Void*
+  end
+
+  struct AreaDrawParams
+    context : DrawContext
+
+    area_width : LibC::Double
+    area_height : LibC::Double
+
+    clip_x : LibC::Double
+    clip_y : LibC::Double
+    clip_width : LibC::Double
+    clip_height : LibC::Double
+  end
+
+  struct AreaKeyEvent
+    key : LibC::Char
+    ext_key : ExtKey
+    modifier : Modifiers
+    modifiers : Modifiers
+    up : LibC::Int
+  end
+
+  struct FontDescriptor
     family : UInt8*
     size : LibC::Double
-    weight : UITextWeight
-    italic : UITextItalic
-    stretch : UITextStretch
+    weight : TextWeight
+    italic : TextItalic
+    stretch : TextStretch
+  end
+
+  struct DrawMatrix
+    m11 : LibC::Double
+    m12 : LibC::Double
+    m21 : LibC::Double
+    m22 : LibC::Double
+    m31 : LibC::Double
+    m32 : LibC::Double
+  end
+
+  struct DrawBrush
+    type : DrawBrushType
+
+    # Solid brushes
+    r : LibC::Double
+    g : LibC::Double
+    b : LibC::Double
+    a : LibC::Double
+
+    # Gradient brushes
+    x0 : LibC::Double
+    y0 : LibC::Double
+    x1 : LibC::Double
+    y1 : LibC::Double
+    outer_radius : LibC::Double # Radial gradients only
+    stops : DrawBrushGradientStop*
+    num_stops : LibC::SizeT
+  end
+
+  struct DrawBrushGradientStop
+    pos : LibC::Double
+    r : LibC::Double
+    g : LibC::Double
+    b : LibC::Double
+    a : LibC::Double
+  end
+
+  struct DrawStrokeParams
+    cap : DrawLineCap
+    join : DrawLineJoin
+    thickness : LibC::Double
+    miter_limit : LibC::Double
+    dashes : LibC::Double
+    num_dashes : LibC::SizeT
+    dash_phase : LibC::Double
+  end
+
+  struct DrawTextLayoutParams
+    string : AttributedString*
+    default_font : FontDescriptor*
+    width : LibC::Double
+    align : DrawTextAlign
+  end
+
+  struct AreaMouseEvent
+    x : LibC::Double
+    y : LibC::Double
+
+    area_width : LibC::Double
+    area_height : LibC::Double
+
+    down : LibC::Int
+    up : LibC::Int
+
+    count : LibC::Int
+
+    modifiers : Modifiers
+    held_1_to_64 : UInt64
+  end
+
+  struct TableModelHandler
+    num_columns : TableModelHandler*, TableModel* -> LibC::Int
+    column_type : TableModelHandler*, TableModel*, LibC::Int -> TableValueType*
+    num_rows : TableModelHandler*, TableModel* -> LibC::Int
+    cell_value : TableModelHandler*, TableModel*, LibC::Int, LibC::Int -> TableValue*
+    set_cell_value : TableModelHandler*, TableModel*, LibC::Int, LibC::Int, TableValue* -> Void*
+  end
+
+  struct TableTextColumnOptionalParams
+    color_model_column : LibC::Int
+  end
+
+
+  struct TableParams
+    model : TableModel*
+    row_background_color_model_column : LibC::Int
   end
 
   # TODO This actual structure (and more) although not necessary unless debugging
@@ -283,9 +507,9 @@ lib UI
   fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons*, f : UI::RadioButtons*, Void* ->, Void*)
 
   fun new_font_button = uiNewFontButton : UI::FontButton*
-  fun font_button_font = uiFontButtonFont(b : UI::FontButton*, desc : UI::UIFontDescriptor*)
+  fun font_button_font = uiFontButtonFont(b : UI::FontButton*, desc : UI::FontDescriptor*)
   fun font_button_on_changed = uiFontButtonOnChanged(b : UI::FontButton*, f : UI::FontButton*, Void* ->, Void*)
-  fun free_font_button_font = uiFreeFontButtonFont(desc : UI::UIFontDescriptor*)
+  fun free_font_button_font = uiFreeFontButtonFont(desc : UI::FontDescriptor*)
 
   fun new_color_button = uiNewColorButton : UI::ColorButton*
   fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
