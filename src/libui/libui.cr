@@ -106,8 +106,8 @@ lib UI
   end
 
   enum DrawFillMode
-    DrawFillModeWinding
-    DrawFillModeAlternate
+    Winding
+    Alternate
   end
 
   enum DrawLineCap
@@ -213,15 +213,16 @@ lib UI
   end
 
   struct AreaHandler
-    draw : AreaHandler*, Area*, AreaDrawParams* -> Void*
-    mouse_event : AreaHandler*, Area*, AreaMouseEvent* -> Void*
-    mouse_crossed : AreaHandler*, Area*, LibC::Int -> Void*
-    drag_broken : AreaHandler*, Area* -> Void*
-    key_event : AreaHandler*, Area*, AreaKeyEvent* -> Void*
+    draw : AreaHandler*, Area*, AreaDrawParams* ->
+    mouse_event : AreaHandler*, Area*, AreaMouseEvent* ->
+    mouse_crossed : AreaHandler*, Area*, LibC::Int ->
+    drag_broken : AreaHandler*, Area* ->
+    key_event : AreaHandler*, Area*, AreaKeyEvent* ->
+    data : Void*
   end
 
   struct AreaDrawParams
-    context : DrawContext
+    context : DrawContext*
 
     area_width : LibC::Double
     area_height : LibC::Double
@@ -512,7 +513,7 @@ lib UI
   fun free_font_button_font = uiFreeFontButtonFont(desc : UI::FontDescriptor*)
 
   fun new_color_button = uiNewColorButton : UI::ColorButton*
-  fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
+  fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double*, g : LibC::Double*, bl : LibC::Double*, a : LibC::Double*)
   fun color_button_set_color = uiColorButtonSetColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
   fun color_button_on_changed = uiColorButtonOnChanged(b : UI::ColorButton*, f : UI::ColorButton*, Void* ->, Void*)
 
@@ -533,12 +534,12 @@ lib UI
   fun new_area = uiNewArea(ah : UI::AreaHandler*) : UI::Area*
   fun new_scrolling_area = uiNewScrollingArea(ah : UI::AreaHandler*, width : Int64, height : Int64) : UI::Area*
   fun area_set_size = uiAreaSetSize(a : UI::Area*, width : Int64, height : Int64)
-  fun area_queue_redrawal = uiAreaQueueRedrawAll(a : UI::Area*)
+  fun area_queue_redraw_all = uiAreaQueueRedrawAll(a : UI::Area*)
   fun area_scroll_to = uiAreaScrollTo(a : UI::Area*, x : LibC::Double, y : LibC::Double, width : LibC::Double, height : LibC::Double)
   fun area_begin_user_window_move = uiAreaBeginUserWindowMove(a : UI::Area*)
   fun area_begin_user_window_resize = uiAreaBeginUserWindowResize(a : UI::Area*, edge : WindowResizeEdge)
 
-  fun draw_path = uiDrawNewPath(fillMode : UI::DrawFillMode) : UI::DrawPath*
+  fun new_draw_path = uiDrawNewPath(fillMode : UI::DrawFillMode) : UI::DrawPath*
   fun draw_free_path = uiDrawFreePath(p : UI::DrawPath*)
   fun draw_path_new_figure = uiDrawPathNewFigure(p : UI::DrawPath*, x : LibC::Double, y : LibC::Double)
   fun draw_path_new_figure_with_arc = uiDrawPathNewFigureWithArc(p : UI::DrawPath*, xCenter : LibC::Double, yCenter : LibC::Double, radius : LibC::Double, startAngle : LibC::Double, sweep : LibC::Double, negative : LibC::Int)
@@ -549,7 +550,7 @@ lib UI
   fun draw_path_add_rectangle = uiDrawPathAddRectangle(p : UI::DrawPath*, x : LibC::Double, y : LibC::Double, width : LibC::Double, height : LibC::Double)
   fun draw_path_end = uiDrawPathEnd(p : UI::DrawPath*)
   fun draw_path_stroke = uiDrawStroke(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*, p : UI::DrawStrokeParams*)
-  fun draw_fill = uiDrawFill(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*)
+  fun draw_path_fill = uiDrawFill(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*)
   fun draw_matrix_set_identity = uiDrawMatrixSetIdentity(m : UI::DrawMatrix*)
   fun draw_matrix_translate = uiDrawMatrixTranslate(m : UI::DrawMatrix*, x : LibC::Double, y : LibC::Double)
   fun draw_matrix_scale = uiDrawMatrixScale(m : UI::DrawMatrix*, xCenter : LibC::Double*, yCenter : LibC::Double*, x : LibC::Double, y : LibC::Double)
