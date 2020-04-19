@@ -162,6 +162,8 @@ module CUI
     when "tabs"
       raw_component = UI.new_tab
       component = ui_control raw_component
+    else
+      raise CUI::Exception.new "Trying to inflate an unknown component type: #{type}"
     end
 
     idx_component name.to_s, component if !name.nil? && !component.is_a?(Nil)
@@ -273,6 +275,8 @@ module CUI
         component_wrappers = inflate_components data
       when "components"
         component_wrappers = inflate_components data
+      else
+        raise CUI::Exception.new "Trying to inflate components that are neither windows nor components: #{desc}"
       end
     end
     component_wrappers
@@ -308,11 +312,15 @@ module CUI
           when "separator"
             component_name = "sys#separator"
             component_desc |= MenuDesc::Separator.value
+          else
+            raise CUI::Exception.new "Trying to decode an unsupported menu component type: #{data}"
           end
         when "enabled"
           component_desc &= ~MenuDesc::Enabled.value if data.to_s.strip != "true"
         when "item"
           component_text = data.to_s
+        else
+          raise CUI::Exception.new "Trying to decode an unsupported menu component attribute: #{desc}"
         end
       end
       raise CUI::Exception.new "Missing menu item information: #{component_name} -> #{component_text}" if component_name.nil? || component_text.nil?
@@ -330,6 +338,8 @@ module CUI
         children = inflate_menuitems data
       when "menu"
         menu = UI.new_menu data.to_s
+      else
+        raise CUI::Exception.new "Trying to inflate a menu component that is neither an item nor a submenu: #{desc}"
       end
     end
     unless menu.is_a?(Nil)
@@ -373,6 +383,8 @@ module CUI
       case desc
       when "menubar"
         inflate_menubar data
+      else
+        raise CUI::Exception.new "This is not a menubar: #{desc}"
       end
     end
   end
