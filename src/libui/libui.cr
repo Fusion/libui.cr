@@ -1,19 +1,7 @@
 @[Link("ui")]
 
 lib UI
-  enum Align
-    AlignFill
-    AlignStart
-    AlignCenter
-    AlignEnd
-  end
-
-  enum At
-    AtLeading
-    AtTop
-    AtTrailing
-    AtBottom
-  end
+  DrawDefaultMiterLimit = 10.0
 
   type Menu = Void*
   type MenuItem = Void*
@@ -41,32 +29,311 @@ lib UI
   type Grid = Void*
   type DrawTextFont = Void*
   type Area = Void*
-  type AreaHandler = Void*
-
-  enum DrawFillMode
-    DrawFillModeWinding
-    DrawFillModeAlternate
-  end
-
   type DrawPath = Void*
   type DrawContext = Void*
-  type DrawBrush = Void*
-  type DrawStrokeParams = Void*
   type DrawFontFamilies = Void*
   type DrawTextFontDescriptor = Void*
   type DrawTextFontMetrics = Void*
   type DrawTextLayout = Void*
-  type DrawMatrix = Void*
+  type TableModel = Void*
+  type TableValue = Void*
+  type AttributedString = Void*
 
   enum WindowResizeEdge
-    WindowResizeEdgeLeft
-    WindowResizeEdgeTop
-    WindowResizeEdgeRight
-    WindowResizeEdgeBottom
-    WindowResizeEdgeTopLeft
-    WindowResizeEdgeTopRight
-    WindowResizeEdgeBottomLeft
-    WindowResizeEdgeBottomRight
+    Left
+    Top
+    Right
+    Bottom
+    TopLeft
+    TopRight
+    BottomLeft
+    BottomRight
+  end
+
+  enum TextWeight
+    Minimum    =    0
+    Thin       =  100
+    UltraLight =  200
+    Light      =  300
+    Book       =  350
+    Normal     =  400
+    Medium     =  500
+    SemiBold   =  600
+    Bold       =  700
+    UltraBold  =  800
+    Heavy      =  900
+    UltraHeavy =  950
+    Maximum    = 1000
+  end
+
+  enum TextItalic
+    Normal
+    Oblique
+    Italic
+  end
+
+  enum Underline
+    None
+    Single
+    Double
+    Suggestion
+  end
+
+  enum UnderlineColor
+    Custom
+    Spelling
+    Grammar
+    Auxiliary # For instance, the color used by smart replacements on macOS or in Microsoft Office
+  end
+
+  enum TextStretch
+    UltraCondensed
+    ExtraCondensed
+    Condensed
+    SemiCondensed
+    Normal
+    SemiExpanded
+    Expanded
+    ExtraExpanded
+    UltraExpanded
+  end
+
+  enum DrawBrushType
+    Solid
+    LinearGradient
+    RadialGradient
+    Image
+  end
+
+  enum DrawFillMode
+    Winding
+    Alternate
+  end
+
+  enum DrawLineCap
+    Flat
+    Round
+    Square
+  end
+
+  enum DrawLineJoin
+    Miter
+    Round
+    Bevel
+  end
+
+  enum DrawTextAlign
+    Left
+    Center
+    Right
+  end
+
+  enum AttributeType
+    Family
+    Size
+    Weight
+    Italic
+    Stretch
+    Color
+    Background
+    Underline
+    UnderlineColor
+    Features
+  end
+
+  @[Flags]
+  enum Modifiers
+    Ctrl
+    Alt
+    Shift
+    Super
+  end
+
+  enum ExtKey
+    Escape = 1
+    Insert			# equivalent to "Help" on Apple keyboards
+    Delete
+    Home
+    End
+    PageUp
+    PageDown
+    Up
+    Down
+    Left
+    Right
+    F1			# F1..F12 are guaranteed to be consecutive
+    F2
+    F3
+    F4
+    F5
+    F6
+    F7
+    F8
+    F9
+    F10
+    F11
+    F12
+    N0			# numpad keys; independent of Num Lock state
+    N1			# N0..N9 are guaranteed to be consecutive
+    N2
+    N3
+    N4
+    N5
+    N6
+    N7
+    N8
+    N9
+    NDot
+    NEnter
+    NAdd
+    NSubtract
+    NMultiply
+    NDivide
+  end
+
+  enum Align
+    Fill
+    Start
+    Center
+    End
+  end
+
+  enum At
+    Leading
+    Top
+    Trailing
+    Bottom
+  end
+
+  enum TableValueType
+    String
+    Image
+    Int
+    Color
+  end
+
+  struct AreaHandler
+    draw : AreaHandler*, Area*, AreaDrawParams* ->
+    mouse_event : AreaHandler*, Area*, AreaMouseEvent* ->
+    mouse_crossed : AreaHandler*, Area*, LibC::Int ->
+    drag_broken : AreaHandler*, Area* ->
+    key_event : AreaHandler*, Area*, AreaKeyEvent* ->
+    data : Void*
+  end
+
+  struct AreaDrawParams
+    context : DrawContext*
+
+    area_width : LibC::Double
+    area_height : LibC::Double
+
+    clip_x : LibC::Double
+    clip_y : LibC::Double
+    clip_width : LibC::Double
+    clip_height : LibC::Double
+  end
+
+  struct AreaKeyEvent
+    key : LibC::Char
+    ext_key : ExtKey
+    modifier : Modifiers
+    modifiers : Modifiers
+    up : LibC::Int
+  end
+
+  struct FontDescriptor
+    family : UInt8*
+    size : LibC::Double
+    weight : TextWeight
+    italic : TextItalic
+    stretch : TextStretch
+  end
+
+  struct DrawMatrix
+    m11 : LibC::Double
+    m12 : LibC::Double
+    m21 : LibC::Double
+    m22 : LibC::Double
+    m31 : LibC::Double
+    m32 : LibC::Double
+  end
+
+  struct DrawBrush
+    type : DrawBrushType
+
+    # Solid brushes
+    r : LibC::Double
+    g : LibC::Double
+    b : LibC::Double
+    a : LibC::Double
+
+    # Gradient brushes
+    x0 : LibC::Double
+    y0 : LibC::Double
+    x1 : LibC::Double
+    y1 : LibC::Double
+    outer_radius : LibC::Double # Radial gradients only
+    stops : DrawBrushGradientStop*
+    num_stops : LibC::SizeT
+  end
+
+  struct DrawBrushGradientStop
+    pos : LibC::Double
+    r : LibC::Double
+    g : LibC::Double
+    b : LibC::Double
+    a : LibC::Double
+  end
+
+  struct DrawStrokeParams
+    cap : DrawLineCap
+    join : DrawLineJoin
+    thickness : LibC::Double
+    miter_limit : LibC::Double
+    dashes : LibC::Double
+    num_dashes : LibC::SizeT
+    dash_phase : LibC::Double
+  end
+
+  struct DrawTextLayoutParams
+    string : AttributedString*
+    default_font : FontDescriptor*
+    width : LibC::Double
+    align : DrawTextAlign
+  end
+
+  struct AreaMouseEvent
+    x : LibC::Double
+    y : LibC::Double
+
+    area_width : LibC::Double
+    area_height : LibC::Double
+
+    down : LibC::Int
+    up : LibC::Int
+
+    count : LibC::Int
+
+    modifiers : Modifiers
+    held_1_to_64 : UInt64
+  end
+
+  struct TableModelHandler
+    num_columns : TableModelHandler*, TableModel* -> LibC::Int
+    column_type : TableModelHandler*, TableModel*, LibC::Int -> TableValueType*
+    num_rows : TableModelHandler*, TableModel* -> LibC::Int
+    cell_value : TableModelHandler*, TableModel*, LibC::Int, LibC::Int -> TableValue*
+    set_cell_value : TableModelHandler*, TableModel*, LibC::Int, LibC::Int, TableValue* -> Void*
+  end
+
+  struct TableTextColumnOptionalParams
+    color_model_column : LibC::Int
+  end
+
+
+  struct TableParams
+    model : TableModel*
+    row_background_color_model_column : LibC::Int
   end
 
   # TODO This actual structure (and more) although not necessary unless debugging
@@ -95,7 +362,7 @@ lib UI
   # Life Cycle
 
   fun main = uiMain
-  fun main_steps = uiMainSteps() : Void
+  fun main_steps = uiMainSteps : Void
   fun main_step = uiMainStep(wait : LibC::Int) : LibC::Int
   fun init = uiInit(options : UI::InitOptions*) : Char*
   fun uninit = uiUninit
@@ -103,35 +370,30 @@ lib UI
   fun free_text = uiFreeText(text : UInt8*)
   fun free_init_error = uiFreeInitError(err : UInt8*)
   fun timer = uiTimer(milliseconds : LibC::Int, f : Void* ->, data : Void*) : Void
+  fun on_should_quit = uiOnShouldQuit(f : Void* -> LibC::Int, data : Void*)
 
   # Components
 
   fun new_menu = uiNewMenu(name : UInt8*) : UI::Menu*
   fun menu_append_item = uiMenuAppendItem(m : UI::Menu*, name : UInt8*) : UI::MenuItem*
   fun menu_append_check_item = uiMenuAppendCheckItem(m : UI::Menu*, name : UInt8*) : UI::MenuItem*
-  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, data : Void*)
   fun menu_append_quit_item = uiMenuAppendQuitItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_preferences_item = uiMenuAppendPreferencesItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_about_item = uiMenuAppendAboutItem(m : UI::Menu*) : UI::MenuItem*
   fun menu_append_separator = uiMenuAppendSeparator(m : UI::Menu*)
-  fun on_should_quit = uiOnShouldQuit(f : Void* -> LibC::Int, data : Void*)
-  fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
 
   fun menu_item_enable = uiMenuItemEnable(m : UI::MenuItem*)
   fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
-  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, Void*)
+  fun menu_item_on_clicked = uiMenuItemOnClicked(m : UI::MenuItem*, f : UI::MenuItem*, UI::Window*, Void* ->, data : Void*)
   fun menu_item_checked = uiMenuItemChecked(m : UI::MenuItem*) : LibC::Int
   fun menu_item_set_checked = uiMenuItemSetChecked(m : UI::MenuItem*, checked : LibC::Int)
+  fun menu_item_disable = uiMenuItemDisable(m : UI::MenuItem*)
 
   fun new_horizontal_separator = uiNewHorizontalSeparator : UI::Separator*
 
   fun new_window = uiNewWindow(title : UInt8*, width : LibC::Int, height : LibC::Int, hasMenubar : LibC::Int) : UI::Window*
   fun window_margined = uiWindowMargined(w : UI::Window*) : LibC::Int
   fun window_set_margined = uiWindowSetMargined(w : UI::Window*, margined : LibC::Int)
-  # fun window_position = uiWindowPosition(w : UI::Window*, x : LibC::Int*, y : LibC::Int*)
-  # fun window_set_position = uiWindowSetPosition(w : UI::Window*, x : LibC::Int, y : LibC::Int)
-  # fun window_center = uiWindowCenter(w : UI::Window*)
-  # fun window_on_position_changed = uiWindowOnPositionChanged(w : UI::Window*, f : UI::Window*, Void* ->, Void*)
   fun window_content_size = uiWindowContentSize(w : UI::Window*, width : LibC::Int*, height : LibC::Int*)
   fun window_set_content_size = uiWindowSetContentSize(w : UI::Window*, width : LibC::Int, height : LibC::Int)
   fun window_fullscreen = uiWindowFullscreen(w : UI::Window*) : LibC::Int
@@ -141,6 +403,8 @@ lib UI
   fun window_title = uiWindowTitle(w : UI::Window*) : UInt8*
   fun window_set_title = uiWindowSetTitle(w : UI::Window*, title : UInt8*)
   fun window_on_closing = uiWindowOnClosing(w : UI::Window*, f : UI::Window*, Void* -> LibC::Int, Void*)
+  fun window_borderless = uiWindowBorderless(w : UI::Window*) : LibC::Int
+  fun window_set_borderless = uiWindowSetBorderless(w : UI::Window*, borderless : LibC::Int)
 
   fun new_vertical_box = uiNewVerticalBox : UI::Box*
   fun new_horizontal_box = uiNewHorizontalBox : UI::Box*
@@ -192,7 +456,7 @@ lib UI
   fun entry_read_only = uiEntryReadOnly(e : UI::Entry*) : LibC::Int
   fun entry_set_read_only = uiEntrySetReadOnly(e : UI::Entry*, readonly : LibC::Int)
 
-  fun multiline_entry = uiNewMultilineEntry : UI::MultilineEntry*
+  fun new_multiline_entry = uiNewMultilineEntry : UI::MultilineEntry*
   fun multiline_entry_text = uiMultilineEntryText(e : UI::MultilineEntry*) : UInt8*
   fun multiline_entry_set_text = uiMultilineEntrySetText(e : UI::MultilineEntry*, text : UInt8*)
   fun multiline_entry_append = uiMultilineEntryAppend(e : UI::MultilineEntry*, text : UInt8*)
@@ -207,6 +471,9 @@ lib UI
   fun new_date_time_picker = uiNewDateTimePicker : UI::DateTimePicker*
   fun new_date_picker = uiNewDatePicker : UI::DateTimePicker*
   fun new_time_picker = uiNewTimePicker : UI::DateTimePicker*
+  fun date_time_picker_time = uiDateTimePickerTime(d : UI::DateTimePicker*, tm : LibC::Tm*)
+  fun date_time_picker_set_time = uiDateTimePickerSetTime(d : UI::DateTimePicker*, tm : LibC::Tm*)
+  fun date_time_picker_on_changed = uiDateTimePickerOnChanged(d : UI::DateTimePicker*, f : UI::DateTimePicker*, Void* ->, data : Void*)
 
   fun new_spinbox = uiNewSpinbox(min : Int64, max : Int64) : UI::Spinbox*
   fun spinbox_value = uiSpinboxValue(s : UI::Spinbox*) : Int64
@@ -238,14 +505,15 @@ lib UI
   fun radio_buttons_append = uiRadioButtonsAppend(r : UI::RadioButtons*, text : UInt8*)
   fun radio_buttons_selected = uiRadioButtonsSelected(r : UI::RadioButtons*) : LibC::Int
   fun radio_buttons_set_selected = uiRadioButtonsSetSelected(r : UI::RadioButtons*, n : LibC::Int)
-  fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons, f : UI::RadioButtons*, Void* ->, Void*)
+  fun radio_buttons_on_selected = uiRadioButtonsOnSelected(r : UI::RadioButtons*, f : UI::RadioButtons*, Void* ->, Void*)
 
   fun new_font_button = uiNewFontButton : UI::FontButton*
-  fun font_button_font = uiFontButtonFont(b : UI::FontButton*) : UI::DrawTextFont*
+  fun font_button_font = uiFontButtonFont(b : UI::FontButton*, desc : UI::FontDescriptor*)
   fun font_button_on_changed = uiFontButtonOnChanged(b : UI::FontButton*, f : UI::FontButton*, Void* ->, Void*)
+  fun free_font_button_font = uiFreeFontButtonFont(desc : UI::FontDescriptor*)
 
   fun new_color_button = uiNewColorButton : UI::ColorButton*
-  fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
+  fun color_button_color = uiColorButtonColor(b : UI::ColorButton*, r : LibC::Double*, g : LibC::Double*, bl : LibC::Double*, a : LibC::Double*)
   fun color_button_set_color = uiColorButtonSetColor(b : UI::ColorButton*, r : LibC::Double, g : LibC::Double, bl : LibC::Double, a : LibC::Double)
   fun color_button_on_changed = uiColorButtonOnChanged(b : UI::ColorButton*, f : UI::ColorButton*, Void* ->, Void*)
 
@@ -266,12 +534,12 @@ lib UI
   fun new_area = uiNewArea(ah : UI::AreaHandler*) : UI::Area*
   fun new_scrolling_area = uiNewScrollingArea(ah : UI::AreaHandler*, width : Int64, height : Int64) : UI::Area*
   fun area_set_size = uiAreaSetSize(a : UI::Area*, width : Int64, height : Int64)
-  fun area_queue_redrawal = uiAreaQueueRedrawAll(a : UI::Area*)
+  fun area_queue_redraw_all = uiAreaQueueRedrawAll(a : UI::Area*)
   fun area_scroll_to = uiAreaScrollTo(a : UI::Area*, x : LibC::Double, y : LibC::Double, width : LibC::Double, height : LibC::Double)
   fun area_begin_user_window_move = uiAreaBeginUserWindowMove(a : UI::Area*)
   fun area_begin_user_window_resize = uiAreaBeginUserWindowResize(a : UI::Area*, edge : WindowResizeEdge)
 
-  fun draw_path = uiDrawNewPath(fillMode : UI::DrawFillMode) : UI::DrawPath*
+  fun new_draw_path = uiDrawNewPath(fillMode : UI::DrawFillMode) : UI::DrawPath*
   fun draw_free_path = uiDrawFreePath(p : UI::DrawPath*)
   fun draw_path_new_figure = uiDrawPathNewFigure(p : UI::DrawPath*, x : LibC::Double, y : LibC::Double)
   fun draw_path_new_figure_with_arc = uiDrawPathNewFigureWithArc(p : UI::DrawPath*, xCenter : LibC::Double, yCenter : LibC::Double, radius : LibC::Double, startAngle : LibC::Double, sweep : LibC::Double, negative : LibC::Int)
@@ -282,7 +550,7 @@ lib UI
   fun draw_path_add_rectangle = uiDrawPathAddRectangle(p : UI::DrawPath*, x : LibC::Double, y : LibC::Double, width : LibC::Double, height : LibC::Double)
   fun draw_path_end = uiDrawPathEnd(p : UI::DrawPath*)
   fun draw_path_stroke = uiDrawStroke(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*, p : UI::DrawStrokeParams*)
-  fun draw_fill = uiDrawFill(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*)
+  fun draw_path_fill = uiDrawFill(c : UI::DrawContext*, path : UI::DrawPath*, b : UI::DrawBrush*)
   fun draw_matrix_set_identity = uiDrawMatrixSetIdentity(m : UI::DrawMatrix*)
   fun draw_matrix_translate = uiDrawMatrixTranslate(m : UI::DrawMatrix*, x : LibC::Double, y : LibC::Double)
   fun draw_matrix_scale = uiDrawMatrixScale(m : UI::DrawMatrix*, xCenter : LibC::Double*, yCenter : LibC::Double*, x : LibC::Double, y : LibC::Double)
